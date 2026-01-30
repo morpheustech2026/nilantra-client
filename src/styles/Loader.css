@@ -1,0 +1,36 @@
+.loader-container {
+  height: 100vh;
+  width: 100vw;
+  background: #0f0f0f; /* dark background looks premium */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-logo {
+  width: 140px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.loader-text {
+  margin-top: 15px;
+  color: #d4af37; /* gold vibe */
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+}
