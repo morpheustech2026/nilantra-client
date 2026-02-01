@@ -185,7 +185,7 @@ export default {
         inputFade: "inputFade 0.8s ease-out forwards",
         imageSlow: "imageSlow 8s ease-out forwards",
 
-        /* 🔥 NILANTRA LOADER */
+        /*  NILANTRA LOADER */
         nilantraPulse: "nilantraPulse 1.6s ease-in-out infinite",
       },
     },

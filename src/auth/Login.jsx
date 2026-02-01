@@ -1,9 +1,24 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Loader from "../components/Loader"; 
 
 const brand = "NILANTRA";
 
 function Login() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+   
+    window.scrollTo(0, 0);
+    
+    const timer = setTimeout(() => setLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  if (loading) return <Loader />;
+
   return (
     <>
       <Navbar />

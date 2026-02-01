@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import roomCategories from "../data/roomCategories";
-import Loader from "../components/Loader"; // ✅ NEW LOADER IMPORT
+import Loader from "../components/Loader";
 
 function CollectionCategory() {
   const { category } = useParams();
@@ -15,26 +15,19 @@ function CollectionCategory() {
 
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 600); // smooth transition
+    }, 600);
 
     return () => clearTimeout(timer);
   }, [category]);
 
-  /* ================= NO CATEGORY ================= */
-  if (!category) {
-    return <Loader />; // ✅ NEW LOADER
-  }
+  if (!category) return <Loader />;
 
   const categories = roomCategories[category] || [];
 
-  /* ================= LOADER UI ================= */
-  if (loading) {
-    return <Loader />; // ✅ NEW LOADER
-  }
+  if (loading) return <Loader />;
 
   return (
-    <section className="relative min-h-screen py-24 overflow-hidden">
-
+    <section className="relative min-h-screen pt-40 pb-24 overflow-hidden">
       {/* BACKGROUND IMAGE */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-opacity duration-700"
@@ -49,7 +42,6 @@ function CollectionCategory() {
 
       {/* CONTENT */}
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-
         <h1 className="text-4xl font-heading font-semibold mb-14 capitalize text-ink">
           {category.replace("-", " ")}
         </h1>
@@ -91,7 +83,6 @@ function CollectionCategory() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

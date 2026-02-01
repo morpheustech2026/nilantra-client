@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { products } from "../data/products";
-import Loader from "../components/Loader"; // ✅ NEW LOADER IMPORT
+import Loader from "../components/Loader";
 
 function ProductGroup() {
   const { category, type } = useParams();
@@ -23,15 +23,11 @@ function ProductGroup() {
     (p) => p.room === category && p.type === type
   );
 
-  /* ================= LOADER UI ================= */
-  if (loading) {
-    return <Loader />; // ✅ NEW LOADER
-  }
+  if (loading) return <Loader />;
 
   return (
-    <section className="min-h-screen bg-[#f5f3ef] py-24">
+    <section className="min-h-screen bg-[#f5f3ef] pt-40 pb-24">
       <div className="max-w-7xl mx-auto px-6">
-
         <h1 className="text-4xl font-heading font-semibold mb-10 capitalize text-ink">
           {type.replace("-", " ")}
         </h1>
@@ -70,7 +66,6 @@ function ProductGroup() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

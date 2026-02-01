@@ -1,9 +1,29 @@
+import React, { useState, useEffect } from "react"; 
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Loader from "../components/Loader"; 
 
 const brand = "NILANTRA";
 
 function Register() {
+  const [loading, setLoading] = useState(true);
+
+ 
+  useEffect(() => {
+    
+    window.scrollTo(0, 0);
+
+    
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  
+  if (loading) return <Loader />;
+
   return (
     <>
       <Navbar />
@@ -18,7 +38,7 @@ function Register() {
             shadow-luxe animate-pageFade
           "
         >
-          {/* LEFT – FORM */}
+         
           <div className="bg-ivory px-10 py-12 flex flex-col justify-center">
             <p className="text-xs tracking-widestPlus text-brand mb-2">
               CREATE ACCOUNT
@@ -96,7 +116,7 @@ function Register() {
             </p>
           </div>
 
-          {/* RIGHT – IMAGE */}
+         
           <div className="hidden md:block bg-ivory p-3">
             <img
               src="/violet-sofa.png"
