@@ -75,7 +75,7 @@ export default function Payment() {
   const total = subtotal + gstAmount + deliveryCharge;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#0b2a4a] to-[#020617] pt-24 pb-16">
+    <div className="min-h-screen pt-40 bg-gradient-to-br from-[#0f172a] via-[#0b2a4a] to-[#020617] pt-24 pb-16">
       {/* Container: Changed to Grid */}
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
         

@@ -3,18 +3,19 @@ import video from "../../src/assets/epoxy.mp4";
 
 export default function EpoxyVideo() {
   return (
-  
-    <section className="relative w-full bg-gradient-to-br from-[#001529] to-[#000810] py-32 overflow-hidden">
+    // Updated Background Gradient 👇
+    <section className="relative w-full bg-gradient-to-br from-[#011f4b] to-[#000a1a] py-32 overflow-hidden">
       
       
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-[#c9a24d]/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[100px]" />
+        {/* Glow color slightly adjusted to match new theme */}
+        <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-[#022c5e]/20 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6">
+        {/* ... (ബാക്കി കണ്ടന്റ് പഴയത് പോലെ തന്നെ) ... */}
         <div className="grid md:grid-cols-2 gap-16 items-center">
-          
           
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -23,7 +24,6 @@ export default function EpoxyVideo() {
             viewport={{ once: true }}
             className="relative group"
           >
-            
             <div className="absolute inset-0 bg-[#c9a24d] rounded-2xl transform translate-x-3 translate-y-3 opacity-20 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
             
             <video
@@ -44,7 +44,6 @@ export default function EpoxyVideo() {
             />
           </motion.div>
 
-        
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -64,7 +63,6 @@ export default function EpoxyVideo() {
             </div>
 
             <div className="space-y-4">
-              
               <p className="leading-relaxed text-lg text-gray-300 font-light">
                 Experience seamless, high-gloss epoxy flooring crafted for
                 elegance and durability. Each surface is poured and finished
@@ -95,7 +93,6 @@ export default function EpoxyVideo() {
               "
             >
               <span className="relative z-10">Explore Designs</span>
-              
               <div className="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-100 group-hover:bg-white/20"></div>
             </motion.button>
           </motion.div>

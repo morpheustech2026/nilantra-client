@@ -43,7 +43,7 @@ export default function ProductDetailed() {
   }
 
   return (
-    <div className="bg-[#F7F7F7] min-h-screen py-16">
+    <div className="bg-[#F7F7F7] min-h-screen pt-40 py-16">
       {/* IMAGE + DETAILS */}
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16">
         {/* IMAGE */}

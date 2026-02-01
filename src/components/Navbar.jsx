@@ -1,15 +1,48 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useScrollSpy from "../hooks/useScrollSpy";
-import logo from "../../src/assets/nilantra-logo.png"; 
-import { Menu, X } from 'lucide-react'; 
+import logo from "../../src/assets/nilantra-logo.png";
+
+/* ================= ICONS ================= */
+const IconMenu = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <line x1="4" x2="20" y1="12" y2="12" />
+    <line x1="4" x2="20" y1="6" y2="6" />
+    <line x1="4" x2="20" y1="18" y2="18" />
+  </svg>
+);
+
+const IconX = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <path d="M18 6 6 18" />
+    <path d="m6 6 12 12" />
+  </svg>
+);
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpen, setIsOpen] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
+  
   const active = useScrollSpy(["home", "collections", "about", "contact"]);
 
   useEffect(() => {
@@ -18,15 +51,6 @@ function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleNav = (id) => {
-    setIsOpen(false); 
-    if (location.pathname !== "/") {
-      navigate("/", { state: { scrollTo: id } });
-    } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const navItems = [
     { id: "home", label: "Home" },
     { id: "collections", label: "Collections" },
@@ -34,27 +58,48 @@ function Navbar() {
     { id: "contact", label: "Contact" },
   ];
 
+  // ================= HANDLE NAVIGATION =================
+  const handleNav = (id) => {
+    setIsOpen(false);
+
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: id } });
+      return;
+    }
+
+    
+    const element = document.getElementById(id);
+    const offset = 110; 
+
+    if (element) {
+      const y =
+        element.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    } else {
+    
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const isHome = location.pathname === "/";
+
   return (
     <nav
-      className={`
-        fixed top-0 left-0 w-full z-50
-        transition-all duration-500
-        ${scrolled ? "bg-[#0a0a0a]/95 backdrop-blur-lg shadow-xl" : "bg-transparent"}
-      `}
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        scrolled || !isHome
+          ? "bg-[#011f4b]/95 backdrop-blur shadow-xl"
+          : "bg-transparent"
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative">
-        
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
         {/* LOGO */}
         <div
-          className="cursor-pointer flex items-center gap-2"
           onClick={() => handleNav("home")}
+          className="flex items-center gap-2 cursor-pointer"
         >
-          <img 
-            src={logo} 
-            alt="Nilantra Logo" 
-            className="h-16 md:h-20 w-auto object-contain" 
-          />
-          <span className="font-serif text-xl text-white">Nilantra</span>
+          <img src={logo} className="h-16 md:h-20" />
+          <span className="text-white font-serif text-xl">Nilantra</span>
         </div>
 
         {/* DESKTOP MENU */}
@@ -63,68 +108,45 @@ function Navbar() {
             <li
               key={item.id}
               onClick={() => handleNav(item.id)}
-              className={`
-                cursor-pointer relative transition
-                ${active === item.id ? "text-[#d29a23]" : "hover:text-white"}
-                after:absolute after:left-0 after:-bottom-1
-                after:h-[2px] after:bg-[#d29a23] after:transition-all
-                ${active === item.id ? "after:w-full" : "after:w-0 hover:after:w-full"}
-              `}
+              className={`cursor-pointer relative ${
+                active === item.id ? "text-[#d29a23]" : "hover:text-white"
+              }`}
             >
               {item.label}
             </li>
           ))}
         </ul>
 
-        {/* DESKTOP LOGIN BUTTON */}
+        {/* LOGIN BUTTON */}
         <button
           onClick={() => navigate("/login")}
-          className="hidden md:block px-6 py-2 rounded-full
-                     bg-white text-black text-sm font-medium
-                     hover:bg-[#d29a23] hover:text-white transition"
+          className="hidden md:block px-6 py-2 bg-white text-black rounded-full hover:bg-[#d29a23] hover:text-white transition"
         >
           Login
         </button>
 
-        {/* MOBILE MENU TOGGLE BUTTON */}
-        <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} className="text-white p-2 focus:outline-none">
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
+        {/* MOBILE MENU TOGGLE */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden text-white"
+        >
+          {isOpen ? <IconX /> : <IconMenu />}
+        </button>
 
-        {/* --- MOBILE DROPDOWN BOX (New Code) --- */}
+        {/* MOBILE MENU */}
         {isOpen && (
-          <div className="absolute top-full right-6 mt-2 w-48 bg-[#1a1a1a] border border-gray-800 rounded-xl shadow-2xl py-2 flex flex-col md:hidden animate-in fade-in slide-in-from-top-5 duration-200">
-            <ul className="flex flex-col text-gray-300">
-              {navItems.map((item) => (
-                <li
-                  key={item.id}
-                  onClick={() => handleNav(item.id)}
-                  className={`
-                    cursor-pointer px-6 py-3 hover:bg-white/5 transition-colors text-sm font-medium
-                    ${active === item.id ? "text-[#d29a23]" : ""}
-                  `}
-                >
-                  {item.label}
-                </li>
-              ))}
-            </ul>
-            
-            <div className="h-[1px] bg-gray-800 my-1 mx-4"></div> {/* Divider Line */}
-            
-            <button
-              onClick={() => {
-                setIsOpen(false);
-                navigate("/login");
-              }}
-              className="mx-4 my-2 px-4 py-2 rounded-lg bg-[#d29a23] text-white text-sm font-medium hover:bg-[#b5851d] transition text-center"
-            >
-              Login
-            </button>
+          <div className="absolute top-full right-6 mt-2 w-48 bg-[#011f4b] rounded-xl shadow-xl md:hidden">
+            {navItems.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => handleNav(item.id)}
+                className="px-6 py-3 text-sm text-gray-300 hover:bg-white/10 cursor-pointer"
+              >
+                {item.label}
+              </div>
+            ))}
           </div>
         )}
-
       </div>
     </nav>
   );

@@ -16,7 +16,7 @@ export default function ChatWidget() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const adminPhone = "916238127454"; 
+    const adminPhone = "918129013942"; 
 
     const whatsappMessage = `
 Hello, New Enquiry from Chat Widget:
