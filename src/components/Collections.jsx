@@ -9,7 +9,7 @@ const originalCollections = [
   { slug: "kitchen", title: "Kitchen" },
   { slug: "garden", title: "Garden Furniture" },
   { slug: "office", title: "Office Furniture" },
-  { slug: "theatre-room", title: "Theatre Room" },
+  // { slug: "theatre-room", title: "Theatre Room" },
 ];
 
 const collections = [
