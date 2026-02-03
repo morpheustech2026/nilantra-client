@@ -16,6 +16,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import VendorsList from "./components/VendorsList";
 import Collections from "./components/Collections";
 import FAQ from "./components/FaqSection";
+import OfferPage from "./pages/OfferPage";
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
             path="/product-details/:productId"
             element={<ProductDetailed />}
           />
+
+          
 
           {/* USER */}
           <Route path="/profile" element={<MyProfile />} />

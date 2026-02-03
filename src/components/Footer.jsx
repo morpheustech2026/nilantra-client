@@ -6,7 +6,7 @@ function Footer() {
   
   const socialLinks = {
     facebook: "https://www.facebook.com/share/1D58hnSchs/",
-    instagram: "https://instagram.com/your-profile",
+    instagram: "https://www.instagram.com/nilantradecors?utm_source=qr&igsh=OHFpODhicjRmNXFt",
     youtube: "https://youtube.com/your-channel",
     linkedin: "https://www.linkedin.com/company/nilantra/",
     twitter: "https://twitter.com/your-profile",
