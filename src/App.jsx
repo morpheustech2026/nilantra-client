@@ -3,7 +3,6 @@ import UserLayout from "./layouts/UserLayout";
 import Home from "./pages/Home";
 import CollectionCategory from "./pages/CollectionCategory";
 import ProductGroup from "./pages/ProductGroup";
-
 import Vendors from "./components/Vendors";
 import VendorDetails from "./pages/VendorDetails";
 import Login from "./auth/Login";
@@ -35,33 +34,26 @@ function App() {
           <Route path="/vendors/:slug" element={<VendorDetails />} />
 
           {/* COLLECTIONS */}
-          <Route path="/collections/:category" element={<CollectionCategory />} />
           <Route path="/collections" element={<Collections />} />
+          <Route path="/collections/:category" element={<CollectionCategory />} />
           <Route path="/collections/:category/:type" element={<ProductGroup />} />
 
-         
+          {/* ✅ PRODUCT DETAILS (FIXED) */}
+          <Route
+            path="/product-details/:productId"
+            element={<ProductDetailed />}
+          />
 
-          {/* PRODUCT DETAILED PAGE */}
-          <Route path="/product-detailes/:id" element={<ProductDetailed />} />
-
-          {/* USER PROFILE PAGE */}
+          {/* USER */}
           <Route path="/profile" element={<MyProfile />} />
-
-          {/* ✅ CART PAGE ADDED HERE */}
           <Route path="/cart" element={<CartPage />} />
-
-          {/* PAYMENT / CHECKOUT PAGE */}
           <Route path="/checkout" element={<Payment />} />
-
-
-          {/* VENDOR DASHBAORD PAGE */}
           <Route path="/vendorDashboard" element={<VendorDashboard />} />
         </Route>
 
-        {/* ================= AUTH ================= */}
+        {/* AUTH */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
       </Routes>
     </BrowserRouter>
   );
