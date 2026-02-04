@@ -45,7 +45,10 @@ function App() {
             element={<ProductDetailed />}
           />
 
-          
+
+          {/* OFFER */}
+
+          <Route path="/offers" element ={<OfferPage/>}/>
 
           {/* USER */}
           <Route path="/profile" element={<MyProfile />} />
@@ -53,6 +56,8 @@ function App() {
           <Route path="/checkout" element={<Payment />} />
           <Route path="/vendorDashboard" element={<VendorDashboard />} />
         </Route>
+
+
 
         {/* AUTH */}
         <Route path="/login" element={<Login />} />
