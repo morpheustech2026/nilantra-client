@@ -45,11 +45,10 @@ function App() {
             element={<ProductDetailed />}
           />
 
+
           {/* OFFER */}
 
           <Route path="/offers" element ={<OfferPage/>}/>
-
-
 
           {/* USER */}
           <Route path="/profile" element={<MyProfile />} />

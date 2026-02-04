@@ -3,8 +3,8 @@ function ProductCard({ product }) {
     <div className="bg-white rounded-2xl shadow-soft hover:shadow-luxe transition duration-500 overflow-hidden">
 
       {/* IMAGE */}
-      <img
-        src={product.image}
+       <img
+        src={product.images[0]}
         alt={product.name}
         className="h-48 w-full object-cover rounded-t-2xl"
       />
