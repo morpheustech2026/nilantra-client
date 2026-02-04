@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useScrollSpy from "../hooks/useScrollSpy";
 import logo from "../../src/assets/nilantra-logo.png";
 
-/* ================= ICONS ================= */
 const IconMenu = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <line x1="4" x2="20" y1="12" y2="12" /> <line x1="4" x2="20" y1="6" y2="6" /> <line x1="4" x2="20" y1="18" y2="18" />
@@ -19,20 +18,18 @@ const IconX = () => (
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [manualActive, setManualActive] = useState(null); // Click cheyyunnatine track cheyyaan
+  const [manualActive, setManualActive] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const spyActive = useScrollSpy(["home", "collections", "about", "contact"]);
 
-  // Manual click undenkil athu kaanikku, illenkil scroll spy kaanikku. Top-il aanenkil "home" default.
   const active = manualActive || spyActive || (location.pathname === "/" ? "home" : "");
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
-      // Scroll cheyyumpol manual override reset aakanam
       if (manualActive) setManualActive(null);
     };
     window.addEventListener("scroll", onScroll);
@@ -48,7 +45,7 @@ function Navbar() {
 
   const handleNav = (id) => {
     setIsOpen(false);
-    setManualActive(id); // Click cheytha udanae aa color avide lock aakum
+    setManualActive(id);
 
     if (location.pathname !== "/") {
       navigate("/", { state: { scrollTo: id } });
@@ -66,7 +63,6 @@ function Navbar() {
       }
     }
 
-    // 1 second kazhiyumbol scroll spy-ne control thirichu kodukkuka
     setTimeout(() => setManualActive(null), 1000);
   };
 
@@ -87,9 +83,14 @@ function Navbar() {
           {navItems.map((item) => {
             const isActive = active === item.id;
             return (
-              <li key={item.id} onClick={() => handleNav(item.id)} className={`cursor-pointer relative group py-1 transition-all duration-300 ${isActive ? "text-[#d29a23]" : "hover:text-white"}`}>
+              <li 
+                key={item.id} 
+                onClick={() => handleNav(item.id)} 
+                className={`cursor-pointer relative group py-1 transition-colors duration-300 ${isActive ? "text-[#d29a23]" : "hover:text-white"}`}
+              >
                 {item.label}
-                <span className={`absolute left-0 bottom-0 h-[2.5px] bg-[#d29a23] transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}></span>
+                {/* Underline - Fade in animation */}
+                <span className={`absolute left-0 bottom-0 w-full h-[2.5px] bg-[#d29a23] transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}></span>
               </li>
             );
           })}
