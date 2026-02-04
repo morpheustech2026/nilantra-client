@@ -3,7 +3,6 @@ import UserLayout from "./layouts/UserLayout";
 import Home from "./pages/Home";
 import CollectionCategory from "./pages/CollectionCategory";
 import ProductGroup from "./pages/ProductGroup";
-
 import Vendors from "./components/Vendors";
 import VendorDetails from "./pages/VendorDetails";
 import Login from "./auth/Login";
@@ -17,6 +16,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import VendorsList from "./components/VendorsList";
 import Collections from "./components/Collections";
 import FAQ from "./components/FaqSection";
+import OfferPage from "./pages/OfferPage";
 
 function App() {
   return (
@@ -35,33 +35,34 @@ function App() {
           <Route path="/vendors/:slug" element={<VendorDetails />} />
 
           {/* COLLECTIONS */}
-          <Route path="/collections/:category" element={<CollectionCategory />} />
           <Route path="/collections" element={<Collections />} />
+          <Route path="/collections/:category" element={<CollectionCategory />} />
           <Route path="/collections/:category/:type" element={<ProductGroup />} />
 
-         
+          {/* ✅ PRODUCT DETAILS (FIXED) */}
+          <Route
+            path="/product-details/:productId"
+            element={<ProductDetailed />}
+          />
 
-          {/* PRODUCT DETAILED PAGE */}
-          <Route path="/product-detailes/:id" element={<ProductDetailed />} />
+          {/* OFFER */}
 
-          {/* USER PROFILE PAGE */}
+          <Route path="/offers" element ={<OfferPage/>}/>
+
+
+
+          {/* USER */}
           <Route path="/profile" element={<MyProfile />} />
-
-          {/* ✅ CART PAGE ADDED HERE */}
           <Route path="/cart" element={<CartPage />} />
-
-          {/* PAYMENT / CHECKOUT PAGE */}
           <Route path="/checkout" element={<Payment />} />
-
-
-          {/* VENDOR DASHBAORD PAGE */}
           <Route path="/vendorDashboard" element={<VendorDashboard />} />
         </Route>
 
-        {/* ================= AUTH ================= */}
+
+
+        {/* AUTH */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
       </Routes>
     </BrowserRouter>
   );
