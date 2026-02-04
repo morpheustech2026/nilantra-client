@@ -16,6 +16,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import VendorsList from "./components/VendorsList";
 import Collections from "./components/Collections";
 import FAQ from "./components/FaqSection";
+import OfferPage from "./pages/OfferPage";
 
 function App() {
   return (
@@ -44,12 +45,19 @@ function App() {
             element={<ProductDetailed />}
           />
 
+
+          {/* OFFER */}
+
+          <Route path="/offers" element ={<OfferPage/>}/>
+
           {/* USER */}
           <Route path="/profile" element={<MyProfile />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<Payment />} />
           <Route path="/vendorDashboard" element={<VendorDashboard />} />
         </Route>
+
+
 
         {/* AUTH */}
         <Route path="/login" element={<Login />} />

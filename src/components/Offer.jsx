@@ -1,13 +1,24 @@
 import React from 'react';
 import { ArrowRight, Clock, Tag } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Offer = () => {
+  const navigate = useNavigate(); 
+
+ 
+  const goToOffers = () => {
+    navigate('/offers'); 
+  };
+
   return (
     <section className="py-20 px-4 md:px-12 bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto lg:h-[600px]">
         
-        {/* --- BIG OFFER CARD (Left Side) --- */}
-        <div className="col-span-1 lg:col-span-7 relative group overflow-hidden rounded-[2rem] shadow-sm cursor-pointer h-[500px] lg:h-full">
+       
+        <div 
+          onClick={goToOffers}
+          className="col-span-1 lg:col-span-7 relative group overflow-hidden rounded-[2rem] shadow-sm cursor-pointer h-[500px] lg:h-full"
+        >
           <img 
             src="https://t4.ftcdn.net/jpg/04/96/64/77/360_F_496647702_KKitPWVXrmM7GTLct8CURFpvHHdshxE9.jpg" 
             alt="Living Room Offer" 
@@ -26,17 +37,23 @@ const Offer = () => {
             <p className="text-gray-200 text-lg mb-8 max-w-md hidden md:block">
               Experience the epitome of luxury with our hand-crafted Italian collection. Valid until stocks last.
             </p>
-            <button className="flex items-center gap-2 bg-white text-[#03396C] px-8 py-3 rounded-full font-bold hover:bg-[#d29a23] hover:text-white transition-all">
+            <button 
+              onClick={(e) => { e.stopPropagation(); goToOffers(); }} 
+              className="flex items-center gap-2 bg-white text-[#03396C] px-8 py-3 rounded-full font-bold hover:bg-[#d29a23] hover:text-white transition-all"
+            >
               Shop The Sale <ArrowRight size={20} />
             </button>
           </div>
         </div>
 
-        {/* --- RIGHT SIDE COLUMN (2 Smaller Offers) --- */}
+        
         <div className="col-span-1 lg:col-span-5 flex flex-col gap-6 h-full">
           
-          {/* Top Right Card */}
-          <div className="flex-1 relative group overflow-hidden rounded-[2rem] shadow-sm cursor-pointer min-h-[250px]">
+          
+          <div 
+            onClick={goToOffers}
+            className="flex-1 relative group overflow-hidden rounded-[2rem] shadow-sm cursor-pointer min-h-[250px]"
+          >
             <img 
               src="https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?auto=format&fit=crop&q=80&w=1000" 
               alt="Chair Offer" 
@@ -55,9 +72,11 @@ const Offer = () => {
             </div>
           </div>
 
-          {/* Bottom Right Card */}
-          <div className="flex-1 relative group overflow-hidden rounded-[2rem] bg-[#f5f3ef] cursor-pointer min-h-[250px] flex items-center">
-            {/* Split layout inside the small card */}
+         
+          <div 
+            onClick={goToOffers} 
+            className="flex-1 relative group overflow-hidden rounded-[2rem] bg-[#f5f3ef] cursor-pointer min-h-[250px] flex items-center"
+          >
             <div className="w-1/2 p-8 z-10">
               <div className="flex items-center gap-2 text-[#03396C] mb-2">
                  <Tag size={16} /> <span className="font-bold text-xs uppercase">Special Offer</span>
