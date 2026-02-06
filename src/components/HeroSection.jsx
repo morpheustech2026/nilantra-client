@@ -67,12 +67,12 @@ function HeroSection() {
             Explore Collection
           </button>
 
-          <button
-            onClick={scrollToAbout}
-            className="px-8 py-3.5 rounded-full border border-white/40 text-white font-medium hover:bg-white/10 hover:border-white transition-all duration-300"
-          >
-            Learn More
-          </button>
+         <button
+   onClick={() => navigate("/about")}
+  className="px-8 py-3.5 rounded-full border border-white/40 text-white font-medium hover:bg-white/10 hover:border-white transition-all duration-300"
+>
+  Learn More
+</button>
         </div>
       </div>
 

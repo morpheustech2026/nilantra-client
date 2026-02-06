@@ -9,6 +9,7 @@ export const products = [
     name: "Luxury Fabric Sofa",
     price: "₹1,20,000",
     images: ["/sofa1.webp"],
+    isBestseller: false,
   },
   {
     id: "lr-sofa-02",
@@ -17,6 +18,7 @@ export const products = [
     name: "Modern L Shape Sofa",
     price: "₹1,85,000",
     images: ["/L-shape.png"],
+    isBestseller: true, 
   },
   {
     id: "lr-diwan-01",
@@ -25,6 +27,7 @@ export const products = [
     name: "Classic Diwan Bed",
     price: "₹95,000",
     images: ["/diwan.png"],
+    isBestseller: false,
   },
   {
     id: "lr-chair-01",
@@ -33,6 +36,7 @@ export const products = [
     name: "Accent Arm Chair",
     price: "₹45,000",
     images: ["/arm-chair.png"],
+    isBestseller: true, 
   },
   {
     id: "lr-table-01",
@@ -41,6 +45,7 @@ export const products = [
     name: "Coffee Table",
     price: "₹38,000",
     images: ["/coffee.jpg"],
+    isBestseller: false,
   },
   {
     id: "lr-media-01",
@@ -49,6 +54,7 @@ export const products = [
     name: "TV Unit",
     price: "₹85,000",
     images: ["/tv.jpg"],
+    isBestseller: false,
   },
   {
     id: "lr-storage-01",
@@ -57,6 +63,7 @@ export const products = [
     name: "Storage Unit",
     price: "₹1,05,000",
     images: ["/storage.jpg"],
+    isBestseller: false,
   },
 
   /* ================= DINING ROOM ================= */
@@ -67,6 +74,7 @@ export const products = [
     name: "6 Seater Dining Table",
     price: "₹1,20,000",
     images: ["/dining.jpg"],
+    isBestseller: true, 
   },
   {
     id: "dr-chair-01",
@@ -75,6 +83,7 @@ export const products = [
     name: "Dining Chair",
     price: "₹28,000",
     images: ["/dine2.webp"],
+    isBestseller: false,
   },
   {
     id: "dr-crockery-01",
@@ -83,6 +92,7 @@ export const products = [
     name: "Luxury Crockery Unit",
     price: "₹75,000",
     images: ["/src/data/product/crok.webp"],
+    isBestseller: false,
   },
 
   /* ================= BEDROOM ================= */
@@ -92,7 +102,8 @@ export const products = [
     type: "bed",
     name: "King Size Bed",
     price: "₹1,80,000",
-    images: ["/public/king.jpg"],
+    images: ["/king.jpg"],
+    isBestseller: true,
   },
   {
     id: "br-wardrobe-01",
@@ -100,7 +111,8 @@ export const products = [
     type: "wardrobe",
     name: "Wardrobe",
     price: "₹2,40,000",
-    images: ["/public/ward1.avif"],
+    images: ["/ward1.avif"],
+    isBestseller: false,
   },
   {
     id: "br-sidetable-01",
@@ -108,17 +120,17 @@ export const products = [
     type: "sidetable",
     name: "sidetable",
     price: "₹40,000",
-    images: ["/public/ward1.avif"],
+    images: ["/ward1.avif"],
+    isBestseller: false,
   },
-
-  /* 🔹 ADDED: Bedroom Dresser */
   {
     id: "br-dresser-01",
     room: "bedroom",
     type: "dresser",
     name: "Bedroom Dresser",
     price: "₹65,000",
-    images: ["/public/dresser.jpg"],
+    images: ["/dresser.jpg"],
+    isBestseller: false,
   },
 
   /* ================= KITCHEN ================= */
@@ -129,26 +141,25 @@ export const products = [
     name: "Modular Kitchen Cabinet",
     price: "₹3,20,000",
     images: ["/products/kitchen/1.jpg"],
+    isBestseller: false,
   },
-
-  /* 🔹 ADDED: Kitchen Island Counter */
   {
     id: "kt-island-01",
     room: "kitchen",
     type: "island-counter",
     name: "Kitchen Island Counter",
     price: "₹1,50,000",
-    images: ["/public/island.jpg"],
+    images: ["/island.jpg"],
+    isBestseller: true, 
   },
-
-  /* 🔹 ADDED: Kitchen Storage Unit */
   {
     id: "kt-storage-01",
     room: "kitchen",
     type: "storage-unit",
     name: "Kitchen Storage Unit",
     price: "₹95,000",
-    images: ["/public/kitchen-storage.jpg"],
+    images: ["/kitchen-storage.jpg"],
+    isBestseller: false,
   },
 
   /* ================= GARDEN ================= */
@@ -159,26 +170,25 @@ export const products = [
     name: "Outdoor Chair",
     price: "₹42,000",
     images: ["/products/garden/chair/1.jpg"],
+    isBestseller: false,
   },
-
-  /* 🔹 ADDED: Outdoor Swing */
   {
     id: "gd-swing-01",
     room: "garden",
     type: "outdoor-swing",
     name: "Outdoor Swing",
     price: "₹88,000",
-    images: ["/public/swing.jpg"],
+    images: ["/swing.jpg"],
+    isBestseller: false,
   },
-
-  /* 🔹 ADDED: Patio Set */
   {
     id: "gd-patio-01",
     room: "garden",
     type: "patio-set",
     name: "Garden Patio Set",
     price: "₹1,35,000",
-    images: ["/public/patio.jpg"],
+    images: ["/patio.jpg"],
+    isBestseller: false,
   },
 
   /* ================= OFFICE ================= */
@@ -189,26 +199,25 @@ export const products = [
     name: "Office Chair",
     price: "₹55,000",
     images: ["/products/office/chair/1.jpg"],
+    isBestseller: false,
   },
-
-  /* 🔹 ADDED: Work Desk */
   {
     id: "of-desk-01",
     room: "office",
     type: "workdesk",
     name: "Office Work Desk",
     price: "₹95,000",
-    images: ["/public/workdesk.jpg"],
+    images: ["/workdesk.jpg"],
+    isBestseller: false,
   },
-
-  /* 🔹 ADDED: Bookshelf */
   {
     id: "of-bookshelf-01",
     room: "office",
     type: "bookshelf",
     name: "Office Bookshelf",
     price: "₹78,000",
-    images: ["/public/bookshelf.jpg"],
+    images: ["/bookshelf.jpg"],
+    isBestseller: false,
   },
 
   /* ================= THEATRE ROOM ================= */
@@ -219,35 +228,33 @@ export const products = [
     name: "Recliner Sofa",
     price: "₹2,60,000",
     images: ["/products/theatre/sofa/1.jpg"],
+    isBestseller: false,
   },
-
-  /* 🔹 ADDED: Theatre Sofa */
   {
     id: "tr-theatre-sofa-01",
     room: "theatre-room",
     type: "theatre-sofa",
     name: "Luxury Theatre Sofa",
     price: "₹3,20,000",
-    images: ["/public/theatre-sofa.jpg"],
+    images: ["/theatre-sofa.jpg"],
+    isBestseller: true, 
   },
-
-  /* 🔹 ADDED: Acoustic Panels */
   {
     id: "tr-acoustic-01",
     room: "theatre-room",
     type: "acoustic-panel",
     name: "Acoustic Wall Panels",
     price: "₹1,10,000",
-    images: ["/public/acoustic.jpg"],
+    images: ["/acoustic.jpg"],
+    isBestseller: false,
   },
-
-  /* 🔹 ADDED: Media Console */
   {
     id: "tr-media-01",
     room: "theatre-room",
     type: "media-console",
     name: "Theatre Media Console",
     price: "₹1,45,000",
-    images: ["/public/media-console.jpg"],
+    images: ["/media-console.jpg"],
+    isBestseller: false,
   },
 ];
