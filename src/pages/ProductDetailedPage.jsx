@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate,useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import { products } from "../data/products";
+import { FaWhatsapp, FaPhoneAlt } from 'react-icons/fa';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -124,7 +125,7 @@ export default function ProductDetailed() {
           </div>
 
           {/* ACTION BUTTONS */}
-          <div className="flex gap-6 pt-6">
+          {/* <div className="flex gap-6 pt-6">
             <button
               onClick={() => navigate("/cart")}
               className="px-10 py-4 bg-gray-900 text-white rounded-full font-semibold hover:bg-gray-700 transition shadow-lg"
@@ -138,7 +139,29 @@ export default function ProductDetailed() {
             >
               Buy Now
             </button>
-          </div>
+          </div> */}
+
+         <div className="flex flex-wrap gap-4 pt-6">
+  {/* WhatsApp Button */}
+  <a
+    href="https://wa.me/919876543210?text=I am interested in this product"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-3 px-8 py-4 bg-[#25D366] text-white rounded-full font-bold hover:bg-[#128C7E] transition shadow-lg"
+  >
+    <FaWhatsapp size={24} />
+    <span>WhatsApp</span>
+  </a>
+
+  {/* Call Button */}
+  <a
+    href="tel:+919876543210"
+    className="flex items-center gap-3 px-8 py-4 border-2 border-gray-900 text-gray-900 rounded-full font-bold hover:bg-gray-900 hover:text-white transition shadow-md"
+  >
+    <FaPhoneAlt size={18} />
+    <span>Call Now</span>
+  </a>
+</div>
         </motion.div>
       </div>
 

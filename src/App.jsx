@@ -17,6 +17,7 @@ import VendorsList from "./components/VendorsList";
 import Collections from "./components/Collections";
 import FAQ from "./components/FaqSection";
 import OfferPage from "./pages/OfferPage";
+import AboutSection from "./components/AboutSection";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           {/* HOME */}
           <Route path="/" element={<Home />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/about" element={<AboutSection />} />
 
           {/* VENDORS */}
           <Route path="/vendors" element={<Vendors />} />
