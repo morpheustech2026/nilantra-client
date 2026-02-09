@@ -18,6 +18,7 @@ import Collections from "./components/Collections";
 import FAQ from "./components/FaqSection";
 import OfferPage from "./pages/OfferPage";
 import AboutSection from "./components/AboutSection";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
         {/* AUTH */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/admin" element={<AdminDashboard/>}/>
       </Routes>
     </BrowserRouter>
   );
