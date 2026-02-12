@@ -124,6 +124,7 @@ function VendorDashboard() {
       setProducts(prev => [finalData, ...prev]);
     }
     resetForm();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = (id) => {
@@ -139,22 +140,22 @@ function VendorDashboard() {
 
   return (
     <div className="relative min-h-screen font-sans bg-[#F8F9FA]"> 
-      <div className="relative z-10 p-6 pt-40 text-[#001B3D]">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div className="relative z-10 p-4 md:p-6 pt-24 md:pt-40 text-[#001B3D]">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
           
-         
-          <div className="lg:col-span-5 space-y-6">
+          
+          <div className="lg:col-span-5 space-y-6 order-2 lg:order-1">
             <header className="flex items-center gap-3">
                 <LayoutDashboard size={24} className="text-[#C7A17A]" />
-                <h2 className="text-2xl font-bold tracking-tight uppercase italic">Your Gallery</h2>
+                <h2 className="text-xl md:text-2xl font-bold tracking-tight uppercase italic">Your Gallery</h2>
             </header>
 
-            <div className="bg-[#001B3D] rounded-[2rem] p-6 border border-[#C7A17A]/30 shadow-2xl">
+            <div className="bg-[#001B3D] rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6 border border-[#C7A17A]/30 shadow-2xl overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-[#F8F9FA]">
-                  <thead className="text-[#C7A17A] uppercase text-[10px] font-black tracking-widest border-b border-[#C7A17A]/20">
+                <table className="w-full text-left text-[#F8F9FA] min-w-[300px]">
+                  <thead className="text-[#C7A17A] uppercase text-[9px] md:text-[10px] font-black tracking-widest border-b border-[#C7A17A]/20">
                     <tr>
-                      <th className="pb-4 px-2">Masterpiece</th>
+                      <th className="pb-4 px-1 md:px-2">Masterpiece</th>
                       <th className="pb-4 text-center">Value</th>
                       <th className="pb-4 text-right">Modify</th>
                     </tr>
@@ -162,23 +163,23 @@ function VendorDashboard() {
                   <tbody>
                     {products.map(p => (
                         <tr key={p.id} className="border-b border-white/5 hover:bg-white/[0.03] transition-colors group">
-                          <td className="py-5 px-2 flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-xl bg-[#002651] border border-[#C7A17A]/30 overflow-hidden flex-shrink-0">
+                          <td className="py-4 md:py-5 px-1 md:px-2 flex items-center gap-2 md:gap-4">
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-[#002651] border border-[#C7A17A]/30 overflow-hidden flex-shrink-0">
                               <img src={p.displayImage} className="w-full h-full object-cover" alt=""/>
                             </div>
-                            <div className="max-w-[140px]">
-                                <div className="font-bold text-xs truncate text-white">{p.name}</div>
-                                <div className="text-[8px] text-[#C7A17A] uppercase font-black">STK: {p.stock} • {p.subCategory}</div>
+                            <div className="max-w-[80px] md:max-w-[140px]">
+                                <div className="font-bold text-[10px] md:text-xs truncate text-white">{p.name}</div>
+                                <div className="text-[7px] md:text-[8px] text-[#C7A17A] uppercase font-black">STK: {p.stock}</div>
                             </div>
                           </td>
                           <td className="text-center">
-                            <div className="font-black text-xs text-[#C7A17A]">₹{p.offerPrice || p.price}</div>
-                            <div className={`text-[7px] px-1.5 py-0.5 rounded-full border mt-1 uppercase font-bold ${p.status === 'Approved' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-amber-500/10 text-amber-500 border-amber-500/20'}`}>{p.status}</div>
+                            <div className="font-black text-[10px] md:text-xs text-[#C7A17A]">₹{p.offerPrice || p.price}</div>
+                            <div className={`text-[6px] md:text-[7px] px-1 py-0.5 rounded-full border mt-1 uppercase font-bold inline-block ${p.status === 'Approved' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-amber-500/10 text-amber-500 border-amber-500/20'}`}>{p.status}</div>
                           </td>
-                          <td className="text-right">
+                          <td className="text-right py-4">
                             <div className="flex gap-1 justify-end">
-                             <button onClick={() => { setEditingId(p.id); setFormData(p); setImagePreviews([p.displayImage]) }} className="text-[#C7A17A] p-2 hover:bg-white/10 rounded-lg transition-all"><Edit size={16}/></button>
-                             <button onClick={() => handleDelete(p.id)} className="text-rose-400 p-2 hover:bg-rose-500/10 rounded-lg transition-all"><Trash2 size={16}/></button>
+                             <button onClick={() => { setEditingId(p.id); setFormData(p); setImagePreviews([p.displayImage]); window.scrollTo({top:0, behavior:'smooth'}) }} className="text-[#C7A17A] p-1.5 md:p-2 hover:bg-white/10 rounded-lg transition-all"><Edit size={14}/></button>
+                             <button onClick={() => handleDelete(p.id)} className="text-rose-400 p-1.5 md:p-2 hover:bg-rose-500/10 rounded-lg transition-all"><Trash2 size={14}/></button>
                             </div>
                           </td>
                         </tr>
@@ -189,52 +190,54 @@ function VendorDashboard() {
             </div>
           </div>
 
-         
-          <div className="lg:col-span-7">
-            <form onSubmit={handleSubmit} className="bg-[#001B3D] rounded-[3rem] p-12 shadow-[0_30px_60px_rgba(0,0,0,0.4)] border-t-8 border-[#C7A17A] sticky top-40 space-y-10 max-h-[85vh] overflow-y-auto custom-scrollbar">
-              <div className="flex justify-between items-end">
+          
+          <div className="lg:col-span-7 order-1 lg:order-2">
+            <form onSubmit={handleSubmit} className="bg-[#001B3D] rounded-[1.5rem] md:rounded-[3rem] p-6 md:p-12 shadow-[0_30px_60px_rgba(0,0,0,0.4)] border-t-8 border-[#C7A17A] lg:sticky lg:top-40 space-y-8 md:space-y-10 lg:max-h-[85vh] overflow-y-auto custom-scrollbar">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-2">
                 <div>
-                  <h2 className="text-4xl font-black text-white uppercase tracking-tighter italic">{editingId ? "Refine Item" : "New Creation"}</h2>
-                  <div className="h-2 w-24 bg-[#C7A17A] mt-3 rounded-full"></div>
+                  <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter italic">{editingId ? "Refine Item" : "New Creation"}</h2>
+                  <div className="h-1.5 w-16 md:w-24 bg-[#C7A17A] mt-2 md:mt-3 rounded-full"></div>
                 </div>
-                <p className="text-[11px] text-[#C7A17A] font-black uppercase tracking-[0.4em] mb-1">Authentic Nilantra</p>
+                <p className="text-[9px] md:text-[11px] text-[#C7A17A] font-black uppercase tracking-[0.4em]">Authentic Nilantra</p>
               </div>
 
-             
+              
               <div className="space-y-4">
-                <label className="text-[13px] font-black uppercase text-[#C7A17A] tracking-widest">Visual Portfolio</label>
-                <div className="grid grid-cols-5 gap-5">
-                  <label className="aspect-square border-2 border-dashed border-[#C7A17A]/40 rounded-3xl flex flex-col items-center justify-center cursor-pointer hover:bg-white/5 transition-all text-[#C7A17A] gap-2">
-                    <Upload size={32} />
-                    <span className="text-[10px] font-black">UPLOAD</span>
+                <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A] tracking-widest">Visual Portfolio</label>
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 md:gap-5">
+                  <label className="aspect-square border-2 border-dashed border-[#C7A17A]/40 rounded-2xl md:rounded-3xl flex flex-col items-center justify-center cursor-pointer hover:bg-white/5 transition-all text-[#C7A17A] gap-1 md:gap-2">
+                    <Upload className="w-5 h-5 md:w-8 md:h-8" />
+                    <span className="text-[8px] md:text-[10px] font-black uppercase">Upload</span>
                     <input type="file" name="images" multiple onChange={handleInputChange} className="hidden" />
                   </label>
                   {imagePreviews.map((src, i) => (
-                    <div key={i} className="aspect-square rounded-3xl overflow-hidden border-2 border-[#C7A17A]/30 shadow-xl"><img src={src} className="w-full h-full object-cover" alt=""/></div>
+                    <div key={i} className="aspect-square rounded-2xl md:rounded-3xl overflow-hidden border-2 border-[#C7A17A]/30 shadow-xl">
+                      <img src={src} className="w-full h-full object-cover" alt=""/>
+                    </div>
                   ))}
                 </div>
               </div>
 
-              <div className="space-y-8">
-               
-                <div className="space-y-3">
-                  <label className="text-[13px] font-black uppercase text-[#C7A17A]">Title of Masterpiece</label>
-                  <input name="name" value={formData.name} onChange={handleInputChange} className="w-full bg-transparent border-b-4 border-white/10 py-5 px-2 outline-none focus:border-[#C7A17A] text-3xl text-white font-bold placeholder:text-white/10" placeholder="e.g. Imperial Teak Wardrobe" required />
-                  <div className="text-[11px] text-[#C7A17A]/60 font-black mt-2 ml-2 tracking-widest">URL PATH: /product/{formData.slug || '...'}</div>
+              <div className="space-y-6 md:space-y-8">
+                
+                <div className="space-y-2 md:space-y-3">
+                  <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A]">Title of Masterpiece</label>
+                  <input name="name" value={formData.name} onChange={handleInputChange} className="w-full bg-transparent border-b-2 md:border-b-4 border-white/10 py-3 md:py-5 px-1 outline-none focus:border-[#C7A17A] text-xl md:text-3xl text-white font-bold placeholder:text-white/10" placeholder="e.g. Imperial Wardrobe" required />
+                  <div className="text-[9px] md:text-[11px] text-[#C7A17A]/60 font-black mt-2 tracking-widest truncate">/product/{formData.slug || '...'}</div>
                 </div>
 
-               
-                <div className="grid grid-cols-2 gap-10">
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
                   <div className="space-y-2">
-                    <label className="text-[13px] font-black uppercase text-[#C7A17A]">Category</label>
-                    <select name="mainCategory" value={formData.mainCategory} onChange={(e) => setFormData({...formData, mainCategory: e.target.value, subCategory: "", seat: [], material: ""})} className="w-full bg-[#002651] border-b-4 border-white/10 py-5 px-5 text-lg font-bold text-white outline-none focus:border-[#C7A17A] rounded-t-2xl">
+                    <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A]">Category</label>
+                    <select name="mainCategory" value={formData.mainCategory} onChange={(e) => setFormData({...formData, mainCategory: e.target.value, subCategory: "", seat: [], material: ""})} className="w-full bg-[#002651] border-b-2 md:border-b-4 border-white/10 py-3 md:py-5 px-3 md:px-5 text-sm md:text-lg font-bold text-white outline-none focus:border-[#C7A17A] rounded-t-xl md:rounded-t-2xl">
                       <option value="">Select Main</option>
                       {Object.keys(FURNITURE_DATA).map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[13px] font-black uppercase text-[#C7A17A]">Specific Type</label>
-                    <select name="subCategory" value={formData.subCategory} disabled={!formData.mainCategory} onChange={handleInputChange} className="w-full bg-[#002651] border-b-4 border-white/10 py-5 px-5 text-lg font-bold text-white outline-none focus:border-[#C7A17A] rounded-t-2xl disabled:opacity-20">
+                    <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A]">Specific Type</label>
+                    <select name="subCategory" value={formData.subCategory} disabled={!formData.mainCategory} onChange={handleInputChange} className="w-full bg-[#002651] border-b-2 md:border-b-4 border-white/10 py-3 md:py-5 px-3 md:px-5 text-sm md:text-lg font-bold text-white outline-none focus:border-[#C7A17A] rounded-t-xl md:rounded-t-2xl disabled:opacity-20">
                       <option value="">Select Sub</option>
                       {formData.mainCategory && FURNITURE_DATA[formData.mainCategory].subcategories.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
@@ -242,26 +245,13 @@ function VendorDashboard() {
                 </div>
 
                 
-                {formData.subCategory === "Bed" && (
-                  <div className="space-y-5 p-8 bg-white/5 rounded-[2.5rem] border border-[#C7A17A]/20 text-center shadow-inner">
-                    <label className="text-[14px] font-black uppercase text-[#C7A17A] tracking-[0.3em]">Select Cot Size</label>
-                    <div className="flex flex-wrap gap-4 justify-center">
-                      {BED_SIZES.map(size => (
-                        <button key={size} type="button" onClick={() => selectBedSize(size)} className={`px-8 py-4 rounded-2xl text-[12px] font-black border-2 transition-all shadow-xl ${formData.material === size ? 'bg-[#C7A17A] text-[#001B3D] border-[#C7A17A]' : 'text-white/40 border-white/10 hover:border-[#C7A17A]'}`}>
-                          {size}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {formData.mainCategory && FURNITURE_DATA[formData.mainCategory]?.needsSeat?.includes(formData.subCategory) && (
-                  <div className="space-y-5 p-8 bg-white/5 rounded-[2.5rem] border border-[#C7A17A]/20 text-center shadow-inner">
-                    <label className="text-[14px] font-black uppercase text-[#C7A17A] tracking-[0.3em]">Seating Capacity</label>
-                    <div className="flex flex-wrap gap-4 justify-center">
-                      {SEATING_OPTIONS.map(num => (
-                        <button key={num} type="button" onClick={() => toggleSeat(num)} className={`px-10 py-4 rounded-2xl text-[12px] font-black border-2 transition-all shadow-xl ${formData.seat.includes(num) ? 'bg-[#C7A17A] text-[#001B3D] border-[#C7A17A]' : 'text-white/40 border-white/10 hover:border-[#C7A17A]'}`}>
-                          {num} SEATER
+                {(formData.subCategory === "Bed" || (formData.mainCategory && FURNITURE_DATA[formData.mainCategory]?.needsSeat?.includes(formData.subCategory))) && (
+                  <div className="space-y-4 md:p-8 bg-white/5 rounded-2xl md:rounded-[2.5rem] border border-[#C7A17A]/20 p-5 text-center shadow-inner">
+                    <label className="text-[12px] md:text-[14px] font-black uppercase text-[#C7A17A] tracking-widest">Configurations</label>
+                    <div className="flex flex-wrap gap-2 md:gap-4 justify-center">
+                      {(formData.subCategory === "Bed" ? BED_SIZES : SEATING_OPTIONS).map(opt => (
+                        <button key={opt} type="button" onClick={() => formData.subCategory === "Bed" ? selectBedSize(opt) : toggleSeat(opt)} className={`px-4 md:px-8 py-2 md:py-4 rounded-xl md:rounded-2xl text-[10px] md:text-[12px] font-black border-2 transition-all ${ (formData.material === opt || formData.seat.includes(opt)) ? 'bg-[#C7A17A] text-[#001B3D] border-[#C7A17A]' : 'text-white/40 border-white/10 hover:border-[#C7A17A]' }`}>
+                          {opt} {formData.subCategory !== "Bed" && "SEATER"}
                         </button>
                       ))}
                     </div>
@@ -269,71 +259,70 @@ function VendorDashboard() {
                 )}
 
                 
-                <div className="grid grid-cols-2 gap-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
                   <div className="space-y-2">
-                    <label className="text-[13px] font-black uppercase text-[#C7A17A]">Base Rate (₹)</label>
-                    <input type="number" name="price" value={formData.price} onChange={handleInputChange} className="w-full bg-[#002651] border-b-4 border-white/10 py-5 px-6 rounded-t-2xl text-2xl font-black text-white outline-none focus:border-[#C7A17A]" required placeholder="0.00" />
+                    <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A]">Base Rate (₹)</label>
+                    <input type="number" name="price" value={formData.price} onChange={handleInputChange} className="w-full bg-[#002651] border-b-2 md:border-b-4 border-white/10 py-3 md:py-5 px-4 md:px-6 rounded-t-xl md:rounded-t-2xl text-xl md:text-2xl font-black text-white outline-none" required placeholder="0.00" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[13px] font-black uppercase text-[#C7A17A]">Offer Price (₹)</label>
-                    <input type="number" name="offerPrice" value={formData.offerPrice} onChange={handleInputChange} className="w-full bg-[#002651] border-b-4 border-white/10 py-5 px-6 rounded-t-2xl text-2xl font-black text-[#C7A17A] outline-none" placeholder="Optional" />
+                    <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A]">Stock Units</label>
+                    <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} className="w-full bg-[#002651] border-b-2 md:border-b-4 border-white/10 py-3 md:py-5 px-4 md:px-6 rounded-t-xl md:rounded-t-2xl text-xl md:text-2xl font-black text-white outline-none" required placeholder="0" />
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                    <label className="text-[13px] font-black uppercase text-[#C7A17A]">Inventory Quantity</label>
-                    <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} className="w-full bg-[#002651] border-b-4 border-white/10 py-5 px-6 rounded-t-2xl text-xl font-black text-white outline-none focus:border-[#C7A17A]" required placeholder="Units in Stock" />
-                </div>
-
-               
-                <div className="space-y-5 bg-white/5 p-8 rounded-[2.5rem] border border-white/10">
-                  <label className="text-[13px] font-black uppercase text-[#C7A17A] tracking-widest block">Premium Finish & Texture</label>
-                  <div className="flex gap-5">
-                    <div className="w-20 h-20 rounded-3xl border-2 border-[#C7A17A]/30 overflow-hidden relative shrink-0 shadow-2xl">
-                      <input type="color" value={selectedHex} onChange={(e) => setSelectedHex(e.target.value)} className="absolute inset-0 w-[200%] h-[200%] cursor-pointer -translate-x-1/4 -translate-y-1/4" />
+                
+                <div className="space-y-5 bg-white/5 p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] border border-white/10">
+                  <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A] tracking-widest block">Premium Finish</label>
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
+                    <div className="flex gap-3 flex-1">
+                      <div className="w-14 h-14 md:w-20 md:h-20 rounded-xl md:rounded-3xl border-2 border-[#C7A17A]/30 overflow-hidden relative shrink-0">
+                        <input type="color" value={selectedHex} onChange={(e) => setSelectedHex(e.target.value)} className="absolute inset-0 w-[200%] h-[200%] cursor-pointer -translate-x-1/4 -translate-y-1/4" />
+                      </div>
+                      <input value={colorName} onChange={(e) => setColorName(e.target.value)} placeholder="Finish Name" className="flex-1 bg-transparent border-b-2 border-white/10 px-2 md:px-4 text-sm md:text-lg outline-none focus:border-[#C7A17A] text-white font-bold" />
                     </div>
-                    <input value={colorName} onChange={(e) => setColorName(e.target.value)} placeholder="Finish Name (e.g. Ebony Black)" className="flex-1 bg-transparent border-b-2 border-white/10 px-4 text-lg outline-none focus:border-[#C7A17A] text-white font-bold" />
-                    <button type="button" onClick={addColorToSchema} className="bg-[#C7A17A] text-[#001B3D] px-8 rounded-2xl hover:bg-white transition-all shadow-xl font-black">ADD</button>
+                    <button type="button" onClick={addColorToSchema} className="bg-[#C7A17A] text-[#001B3D] py-3 sm:py-0 sm:px-8 rounded-xl md:rounded-2xl font-black text-xs md:text-sm shadow-xl">ADD FINISH</button>
                   </div>
-                  <div className="flex flex-wrap gap-4 pt-2">
+                  <div className="flex flex-wrap gap-2 md:gap-4 pt-2">
                     {formData.colors.map(c => (
-                      <span key={c} className="bg-white/10 border border-[#C7A17A]/30 px-6 py-3 rounded-full text-[11px] font-black text-white uppercase flex items-center gap-4 shadow-lg">
-                        <div className="w-4 h-4 rounded-full shadow-inner" style={{backgroundColor: c.includes('(') ? c.split('(')[1].replace(')', '') : c}}></div>
-                        {c}
-                        <X size={14} className="cursor-pointer text-rose-400 hover:text-white" onClick={() => setFormData(p => ({...p, colors: p.colors.filter(x => x !== c)}))}/>
+                      <span key={c} className="bg-white/10 border border-[#C7A17A]/30 px-3 md:px-6 py-2 md:py-3 rounded-full text-[9px] md:text-[11px] font-black text-white uppercase flex items-center gap-2 md:gap-4">
+                        <div className="w-3 h-3 md:w-4 md:h-4 rounded-full shadow-inner" style={{backgroundColor: c.includes('(') ? c.split('(')[1].replace(')', '') : c}}></div>
+                        {c.split(' (')[0]}
+                        <X size={12} className="cursor-pointer text-rose-400" onClick={() => setFormData(p => ({...p, colors: p.colors.filter(x => x !== c)}))}/>
                       </span>
                     ))}
                   </div>
                 </div>
 
                
-                <div className="bg-gradient-to-br from-[#002651] to-[#001B3D] p-10 rounded-[3rem] border border-[#C7A17A]/20 shadow-2xl">
-                  <label className="text-[12px] font-black uppercase text-[#C7A17A] block mb-8 tracking-[0.5em] text-center">Structural Mapping (CM)</label>
-                  <div className="grid grid-cols-3 gap-10">
+                <div className="bg-gradient-to-br from-[#002651] to-[#001B3D] p-5 md:p-10 rounded-2xl md:rounded-[3rem] border border-[#C7A17A]/20 shadow-2xl text-center">
+                  <label className="text-[10px] md:text-[12px] font-black uppercase text-[#C7A17A] block mb-6 tracking-widest">Structural Mapping (CM)</label>
+                  <div className="grid grid-cols-3 gap-3 md:gap-10">
                     {['length', 'width', 'height'].map(dim => (
-                      <div key={dim} className="space-y-3 text-center">
-                        <span className="text-[10px] text-[#C7A17A]/60 uppercase font-black italic tracking-widest">{dim}</span>
-                        <input name={`dim_${dim}`} placeholder="00" value={formData.dimensions[dim]} onChange={handleInputChange} className="w-full bg-[#001B3D] border-2 border-white/5 rounded-2xl py-6 text-center text-2xl font-black text-white outline-none focus:border-[#C7A17A] transition-all" />
+                      <div key={dim} className="space-y-1 md:space-y-3">
+                        <span className="text-[8px] md:text-[10px] text-[#C7A17A]/60 uppercase font-black italic">{dim}</span>
+                        <input name={`dim_${dim}`} placeholder="0" value={formData.dimensions[dim]} onChange={handleInputChange} className="w-full bg-[#001B3D] border-2 border-white/5 rounded-lg md:rounded-2xl py-3 md:py-6 text-center text-sm md:text-2xl font-black text-white outline-none focus:border-[#C7A17A]" />
                       </div>
                     ))}
                   </div>
                 </div>
 
                 
-                <div className="grid grid-cols-3 gap-5">
-                  {[{id:'isFeatured', label:'EXCLUSIVE'}, {id:'isBestSeller', label:'BEST SELLER'}, {id:'isActive', label:'PUBLIC'}].map(flag => (
-                    <label key={flag.id} className={`flex flex-col items-center gap-4 p-6 rounded-[2rem] border-2 cursor-pointer transition-all shadow-xl ${formData[flag.id] ? 'bg-[#C7A17A] border-[#C7A17A] text-[#001B3D]' : 'bg-transparent border-white/10 text-[#C7A17A]/20 hover:border-[#C7A17A]/30'}`}>
+                <div className="grid grid-cols-3 gap-2 md:gap-5">
+                  {[{id:'isFeatured', label:'EXCLUSIVE'}, {id:'isBestSeller', label:'BEST'}, {id:'isActive', label:'PUBLIC'}].map(flag => (
+                    <label key={flag.id} className={`flex flex-col items-center gap-2 md:gap-4 p-3 md:p-6 rounded-xl md:rounded-[2rem] border-2 cursor-pointer transition-all ${formData[flag.id] ? 'bg-[#C7A17A] border-[#C7A17A] text-[#001B3D]' : 'bg-transparent border-white/10 text-[#C7A17A]/20'}`}>
                       <input type="checkbox" name={flag.id} checked={formData[flag.id]} onChange={handleInputChange} className="hidden" />
-                      <Check size={28} className={formData[flag.id] ? 'opacity-100' : 'opacity-0'} />
-                      <span className="text-[11px] font-black uppercase tracking-widest">{flag.label}</span>
+                      <Check size={20} className={formData[flag.id] ? 'opacity-100' : 'opacity-0'} />
+                      <span className="text-[8px] md:text-[11px] font-black uppercase text-center">{flag.label}</span>
                     </label>
                   ))}
                 </div>
 
-                <textarea name="description" placeholder="Narrate the story and craftsmanship of this piece..." value={formData.description} onChange={handleInputChange} className="w-full border-b-4 border-white/10 py-8 px-4 text-lg font-bold text-white h-48 bg-transparent outline-none focus:border-[#C7A17A] resize-none transition-all" required />
+              
+                <textarea name="description" placeholder="Craftsmanship story..." value={formData.description} onChange={handleInputChange} className="w-full border-b-2 md:border-b-4 border-white/10 py-4 md:py-8 px-2 md:px-4 text-sm md:text-lg font-bold text-white h-32 md:h-48 bg-transparent outline-none focus:border-[#C7A17A] resize-none" required />
                 
-                <button type="submit" className="w-full bg-[#C7A17A] text-[#001B3D] py-8 rounded-[2.5rem] font-black uppercase tracking-[0.5em] hover:bg-white transition-all shadow-[0_30px_60px_rgba(0,0,0,0.5)] text-xl active:scale-[0.98]">
-                  {editingId ? "Refine Creation" : "Publish to Gallery"}
+                
+                <button type="submit" className="w-full bg-[#C7A17A] text-[#001B3D] py-5 md:py-8 rounded-xl md:rounded-[2.5rem] font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl text-sm md:text-xl active:scale-[0.98]">
+                  {editingId ? "Refine Creation" : "Publish Piece"}
                 </button>
               </div>
             </form>
