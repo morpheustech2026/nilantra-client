@@ -3,18 +3,18 @@ import video from "../../src/assets/epoxy.mp4";
 
 export default function EpoxyVideo() {
   return (
-    // Updated Background Gradient 👇
+   
     <section className="relative w-full bg-gradient-to-br from-[#011f4b] to-[#000a1a] py-32 overflow-hidden">
       
       
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-[#c9a24d]/5 rounded-full blur-[120px]" />
-        {/* Glow color slightly adjusted to match new theme */}
+        
         <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-[#022c5e]/20 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6">
-        {/* ... (ബാക്കി കണ്ടന്റ് പഴയത് പോലെ തന്നെ) ... */}
+        
         <div className="grid md:grid-cols-2 gap-16 items-center">
           
           <motion.div
@@ -75,26 +75,15 @@ export default function EpoxyVideo() {
               </p>
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="
-                group
-                relative
-                px-10 py-4 
-                rounded-full
-                bg-[#c9a24d] 
-                text-[#001529]
-                font-bold
-                shadow-[0_0_20px_rgba(201,162,77,0.3)]
-                hover:shadow-[0_0_30px_rgba(201,162,77,0.5)]
-                transition-all duration-300
-                overflow-hidden
-              "
-            >
-              <span className="relative z-10">Explore Designs</span>
-              <div className="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-100 group-hover:bg-white/20"></div>
-            </motion.button>
+           <motion.button
+  onClick={() => window.location.href = "/gallery"} 
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="group relative px-10 py-4 rounded-full bg-[#c9a24d] text-[#001529] font-bold shadow-[0_0_20px_rgba(201,162,77,0.3)] hover:shadow-[0_0_30px_rgba(201,162,77,0.5)] transition-all duration-300 overflow-hidden"
+>
+  <span className="relative z-10">Explore Designs</span>
+  <div className="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-100 group-hover:bg-white/20"></div>
+</motion.button>
           </motion.div>
 
         </div>
