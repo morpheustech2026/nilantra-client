@@ -21,6 +21,7 @@ import OfferPage from "./pages/OfferPage";
 import AboutSection from "./components/AboutSection";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreateProduct from './components/admin/CreateProduct';
+import EpoxyGallery from "./components/EpoxyGallery";
 
 
 function App() {
@@ -90,6 +91,10 @@ function App() {
             element={<ProductDetailed />}
           />
           <Route path="/product/:slug" element={<ProductDetailed />} />
+
+
+          <Route path="/gallery" element={<EpoxyGallery />} />
+
 
 
           {/* OFFER */}

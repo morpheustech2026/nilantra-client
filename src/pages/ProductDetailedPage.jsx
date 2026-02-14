@@ -60,11 +60,11 @@ export default function ProductDetailed() {
   }
 
   return (
-    // LIGHT THEME BACKGROUND
+   
     <div className="bg-gray-50 min-h-screen pt-40 pb-20 text-gray-800">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16">
         
-        {/* IMAGE SECTION */}
+       
         <motion.div initial="hidden" animate="visible" variants={fadeUp}>
           <motion.img
             src={activeImg}
@@ -80,7 +80,7 @@ export default function ProductDetailed() {
                 onClick={() => setActiveImg(img)}
                 className={`w-24 h-24 rounded-xl cursor-pointer object-cover border-2 ${
                   activeImg === img
-                    ? "border-gray-900" // Dark border for active
+                    ? "border-gray-900" 
                     : "border-transparent"
                 }`}
               />
@@ -88,7 +88,7 @@ export default function ProductDetailed() {
           </div>
         </motion.div>
 
-        {/* DETAILS SECTION */}
+        
         <motion.div
           initial="hidden"
           animate="visible"
@@ -142,9 +142,9 @@ export default function ProductDetailed() {
           </div> */}
 
          <div className="flex flex-wrap gap-4 pt-6">
-  {/* WhatsApp Button */}
+  
   <a
-    href="https://wa.me/919876543210?text=I am interested in this product"
+    href="https://wa.me/916238383942?text=I am interested in this product"
     target="_blank"
     rel="noopener noreferrer"
     className="flex items-center gap-3 px-8 py-4 bg-[#25D366] text-white rounded-full font-bold hover:bg-[#128C7E] transition shadow-lg"
@@ -153,9 +153,9 @@ export default function ProductDetailed() {
     <span>WhatsApp</span>
   </a>
 
-  {/* Call Button */}
+ 
   <a
-    href="tel:+919876543210"
+    href="tel:+916238383942"
     className="flex items-center gap-3 px-8 py-4 border-2 border-gray-900 text-gray-900 rounded-full font-bold hover:bg-gray-900 hover:text-white transition shadow-md"
   >
     <FaPhoneAlt size={18} />
@@ -165,7 +165,7 @@ export default function ProductDetailed() {
         </motion.div>
       </div>
 
-      {/* RELATED PRODUCTS */}
+    
       <div className="max-w-7xl mx-auto px-6 mt-32">
         <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
           Related Products
@@ -185,7 +185,7 @@ export default function ProductDetailed() {
                    navigate(`/product-details/${item.id}`);
                    window.scrollTo(0,0);
                 }}
-                // Light card style
+                
                 className="cursor-pointer bg-white rounded-3xl p-5 shadow-lg border border-gray-100"
               >
                 <img

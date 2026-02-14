@@ -10,7 +10,7 @@ function Footer() {
     youtube: "https://youtube.com/your-channel",
     linkedin: "https://www.linkedin.com/company/nilantra/",
     twitter: "https://twitter.com/your-profile",
-    whatsapp: "https://wa.me/918129013942", 
+    whatsapp: "https://wa.me/916238383942", 
   };
 
   const handleSocialClick = (platform) => {
