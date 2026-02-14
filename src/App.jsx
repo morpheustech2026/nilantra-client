@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserLayout from "./layouts/UserLayout";
+import { Toaster } from 'react-hot-toast';
 import Home from "./pages/Home";
 import CollectionCategory from "./pages/CollectionCategory";
 import ProductGroup from "./pages/ProductGroup";
@@ -19,11 +20,52 @@ import FAQ from "./components/FaqSection";
 import OfferPage from "./pages/OfferPage";
 import AboutSection from "./components/AboutSection";
 import AdminDashboard from "./pages/AdminDashboard";
+import CreateProduct from './components/admin/CreateProduct';
+
 
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+
+     <Toaster 
+  position="top-center"
+    reverseOrder={false} 
+  containerStyle={{
+    top: '50%', 
+    left: '50%',
+    transform: 'translate(-50%, -50%)', 
+  }}
+  toastOptions={{
+    duration: 3000,
+    style: {
+      background: 'rgba(1, 31, 75, 0.95)', 
+      color: '#fff',
+      padding: '16px 24px',
+      borderRadius: '20px', 
+      fontSize: '14px',
+      fontWeight: '600',
+      letterSpacing: '0.5px',
+      border: '1px solid rgba(210, 154, 35, 0.3)', 
+      boxShadow: '0 10px 30px rgba(0,0,0,0.5)', 
+      backdropFilter: 'blur(10px)', 
+      minWidth: '250px',
+      textAlign: 'center',
+    },
+    success: {
+      iconTheme: {
+        primary: '#d29a23', 
+        secondary: '#fff',
+      },
+    },
+    error: {
+      iconTheme: {
+        primary: '#ff4b4b', 
+        secondary: '#fff',
+      },
+    },
+  }}
+/>
       <Routes>
         <Route element={<UserLayout />}>
 
@@ -47,11 +89,14 @@ function App() {
             path="/product-details/:productId"
             element={<ProductDetailed />}
           />
+          <Route path="/product/:slug" element={<ProductDetailed />} />
 
 
           {/* OFFER */}
 
           <Route path="/offers" element ={<OfferPage/>}/>
+
+         
 
           {/* USER */}
           <Route path="/profile" element={<MyProfile />} />
@@ -65,7 +110,9 @@ function App() {
         {/* AUTH */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/admin" element={<AdminDashboard/>}/>
+        <Route path="/admindashboard" element={<AdminDashboard/>}/>
+        <Route path="/admin/edit-product/:id" element={<CreateProduct />} />
+        <Route path="/admin/inventory" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );

@@ -14,6 +14,7 @@ import Vendors from "../components/Vendors";
 import AboutSection from "../components/AboutSection";
 import Services from "../components/Services";
 import Loader from "../components/Loader"; // 
+import ReviewChatbox from "../components/ReviewChatbox";
 
 function Home() {
   const location = useLocation();
@@ -61,7 +62,9 @@ function Home() {
       <Bestseller />
       <Offer />
       <UserReviews />
+      
       <ChatWidget />
+      <ReviewChatbox/>
       <EpoxyVideo />
       <Collections />
       <Vendors />
