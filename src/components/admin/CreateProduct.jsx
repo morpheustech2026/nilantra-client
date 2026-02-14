@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiPlus, FiUpload, FiX } from "react-icons/fi";
+import axios from 'axios';
+import toast from 'react-hot-toast'; 
+import { useParams, useNavigate } from 'react-router-dom';
 
 const FURNITURE_DATA = {
   "Living Room": { subcategories: ["Sofa", "Chair", "Coffee Table", "TV Unit"], needsSeat: ["Sofa", "Chair"] },
@@ -11,20 +14,51 @@ const SEATING_OPTIONS = [1, 2, 3, 4, 5, 6, 8];
 const BED_SIZES = ["Single Cot", "Double Cot", "Queen Size", "King Size", "Family Cot"];
 
 const CreateProduct = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  
   const [uploadMode, setUploadMode] = useState("file");
   const [previews, setPreviews] = useState([]);
   const [colorInput, setColorInput] = useState(""); 
   const [hexColor, setHexColor] = useState("#c7a17a");
   const [imageUrlInput, setImageUrlInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const initialFormState = {
     name: "", slug: "", description: "", mainCategory: "", subCategory: "",
     price: 0, offerPrice: 0, material: "", dimensions: { length: "", width: "", height: "" },
     colors: [], images: [], seat: [], stock: 0, isFeatured: false,
-    isBestSeller: false, isActive: true, vendor: "65a1234567890abcdef12345" 
-  });
+    isBestSeller: false, isActive: true
+  };
+
+  const [formData, setFormData] = useState(initialFormState);
 
   const inputStyle = "w-full bg-[#00152b] border border-[#c7a17a]/30 rounded-xl px-4 py-3 md:py-4 outline-none focus:border-[#c7a17a] text-white transition-all text-sm";
+
+  
+  useEffect(() => {
+    if (id) {
+      setIsEditing(true);
+      const fetchProduct = async () => {
+        try {
+          const res = await axios.get(`http://localhost:3000/api/products/${id}`);
+          if (res.data) {
+            setFormData(res.data);
+            setPreviews(res.data.images || []);
+          }
+        } catch (error) {
+          toast.error("Error fetching product details");
+          console.error(error);
+        }
+      };
+      fetchProduct();
+    } else {
+      setIsEditing(false);
+      setFormData(initialFormState);
+      setPreviews([]);
+    }
+  }, [id]);
 
   const addColor = (val) => {
     const color = val || colorInput.trim();
@@ -81,25 +115,73 @@ const CreateProduct = () => {
     setFormData(prev => ({ ...prev, images: prev.images.filter((_, i) => i !== index) }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Product details captured!");
+    setLoading(true);
+
+    const token = localStorage.getItem('token'); 
+    if (!token) {
+        toast.error("Authorization failed! Please login again.");
+        setLoading(false);
+        return;
+    }
+
+    const loadToast = toast.loading(isEditing ? "Updating Product..." : "Publishing Product...");
+
+    try {
+      const API_URL = isEditing 
+        ? `http://localhost:3000/api/products/${id}` 
+        : "http://localhost:3000/api/products";
+      
+      const response = await axios({
+        method: isEditing ? 'put' : 'post',
+        url: API_URL,
+        data: formData,
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json"
+        },
+        withCredentials: true 
+      });
+
+      if (response.status === 200 || response.status === 201) {
+        toast.success(isEditing ? "Product updated successfully!" : "Product published successfully!", { id: loadToast });
+        
+        if (!isEditing) {
+            setFormData(initialFormState);
+            setPreviews([]);
+        } else {
+           
+            setTimeout(() => navigate('/admin/inventory'), 2000);
+        }
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      const msg = error.response?.data?.message || "Operation failed";
+      toast.error("Error: " + msg, { id: loadToast });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="p-4 md:p-0">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-[#c7a17a]/20 pb-6 md:pb-8 mb-6 md:mb-10 gap-4">
         <div>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold italic tracking-wide">Create Masterpiece</h2>
-          <p className="text-[#c7a17a] text-[10px] md:text-sm mt-1 uppercase tracking-widest font-bold">New Inventory Entry</p>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold italic tracking-wide">
+            {isEditing ? "Update Product" : "Create Product"}
+          </h2>
+          <p className="text-[#c7a17a] text-[10px] md:text-sm mt-1 uppercase tracking-widest font-bold">
+            {isEditing ? `Editing: ${formData.name}` : "New Inventory Entry"}
+          </p>
         </div>
       </header>
 
       <form onSubmit={handleSubmit} className="bg-[#001f3f] rounded-2xl md:rounded-[2rem] p-6 md:p-10 space-y-8 md:space-y-10 shadow-2xl border border-[#c7a17a]/10">
         
-        
+       
         <div className="space-y-4">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center text-white">
             <label className="text-[10px] md:text-xs text-[#c7a17a] font-bold uppercase tracking-widest ml-1">Images Array</label>
             <div className="flex bg-[#000e1a] rounded-full p-1 border border-[#c7a17a]/20">
               <button type="button" onClick={() => setUploadMode("file")} className={`px-3 py-1 rounded-full text-[9px] font-bold transition-all ${uploadMode === 'file' ? 'bg-[#c7a17a] text-[#001f3f]' : 'text-gray-500'}`}>LOCAL</button>
@@ -129,12 +211,11 @@ const CreateProduct = () => {
           </div>
         </div>
 
-    
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 text-white">
           <div className="space-y-6">
             <div>
                <label className="text-[10px] text-gray-500 uppercase font-bold ml-1 mb-2 block tracking-widest">Name & Slug</label>
-               <input name="name" placeholder="e.g. Royal Bed" onChange={handleInputChange} className={inputStyle} required />
+               <input name="name" value={formData.name} placeholder="e.g. Royal Bed" onChange={handleInputChange} className={inputStyle} required />
                <div className="text-[9px] text-[#c7a17a] mt-2 ml-1 italic truncate opacity-60">Path: /product/{formData.slug}</div>
             </div>
 
@@ -160,27 +241,27 @@ const CreateProduct = () => {
 
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <input type="number" name="price" placeholder="Base ₹" onChange={handleInputChange} className={inputStyle} required />
-              <input type="number" name="offerPrice" placeholder="Sale ₹" onChange={handleInputChange} className={inputStyle} />
+              <input type="number" name="price" value={formData.price} placeholder="Base ₹" onChange={handleInputChange} className={inputStyle} required />
+              <input type="number" name="offerPrice" value={formData.offerPrice} placeholder="Sale ₹" onChange={handleInputChange} className={inputStyle} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <select name="mainCategory" value={formData.mainCategory} onChange={(e) => setFormData({...formData, mainCategory: e.target.value, subCategory: "", seat: []})} className={inputStyle} required>
                 <option value="">Main Category</option>
                 {Object.keys(FURNITURE_DATA).map(cat => <option key={cat} value={cat}>{cat}</option>)}
               </select>
-              <select name="subCategory" value={formData.subCategory} disabled={!formData.mainCategory} onChange={handleInputChange} className={`${inputStyle} disabled:opacity-30`} required>
+              <select name="subCategory" value={formData.subCategory} disabled={!formData.mainCategory} onChange={handleInputChange} className={`${inputStyle} disabled:opacity-30 text-white`} required>
                 <option value="">Sub Category</option>
                 {formData.mainCategory && FURNITURE_DATA[formData.mainCategory].subcategories.map(sub => <option key={sub} value={sub}>{sub}</option>)}
               </select>
             </div>
             <input name="material" value={formData.material} placeholder="Material (e.g. Teak, Oak)" onChange={handleInputChange} className={inputStyle} />
-            <textarea name="description" placeholder="Handcrafted details..." onChange={handleInputChange} className={`${inputStyle} h-24 resize-none`} required />
+            <textarea name="description" value={formData.description} placeholder="Handcrafted details..." onChange={handleInputChange} className={`${inputStyle} h-24 resize-none`} required />
           </div>
         </div>
 
-        
+   
         {(formData.mainCategory && (FURNITURE_DATA[formData.mainCategory]?.needsSeat?.includes(formData.subCategory) || FURNITURE_DATA[formData.mainCategory]?.needsSize?.includes(formData.subCategory))) && (
-          <div className="p-5 md:p-8 bg-black/30 rounded-2xl md:rounded-[2rem] border border-[#c7a17a]/20 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="p-5 md:p-8 bg-black/30 rounded-2xl md:rounded-[2rem] border border-[#c7a17a]/20 animate-in fade-in slide-in-from-top-4 duration-500 text-white">
             {FURNITURE_DATA[formData.mainCategory]?.needsSeat?.includes(formData.subCategory) && (
               <div className="space-y-4">
                 <label className="text-[10px] md:text-xs text-[#c7a17a] font-bold uppercase tracking-[0.2em]">Seating Array (Multiple)</label>
@@ -208,8 +289,7 @@ const CreateProduct = () => {
           </div>
         )}
 
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 text-white">
           <div className="lg:col-span-1 p-6 md:p-8 bg-[#00152b] rounded-2xl md:rounded-[2rem] border border-[#c7a17a]/20">
             <label className="text-[10px] text-[#c7a17a] uppercase font-bold block text-center mb-6 tracking-widest">Dimensions</label>
             <div className="space-y-4">
@@ -226,7 +306,7 @@ const CreateProduct = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                <div>
                  <label className="text-[10px] text-gray-500 uppercase font-bold mb-2 block tracking-widest">Stock Status</label>
-                 <input type="number" name="stock" placeholder="Inventory Count" onChange={handleInputChange} className={inputStyle} />
+                 <input type="number" name="stock" value={formData.stock} placeholder="Inventory Count" onChange={handleInputChange} className={inputStyle} />
                </div>
                <div className="flex gap-2 items-end">
                   {[{id:"isFeatured", l:"Exclusive"}, {id:"isBestSeller", l:"Best Seller"}, {id:"isActive", l:"Public"}].map(t => (
@@ -237,8 +317,13 @@ const CreateProduct = () => {
                   ))}
                </div>
             </div>
-            <button type="submit" className="w-full bg-[#c7a17a] text-[#001f3f] font-black tracking-[0.2em] md:tracking-[0.4em] py-5 md:py-7 rounded-2xl hover:bg-[#b8916a] transition-all uppercase text-lg md:text-xl shadow-2xl mt-4">
-              Publish Product
+            
+            <button 
+              type="submit" 
+              disabled={loading}
+              className={`w-full bg-[#c7a17a] text-[#001f3f] font-black tracking-[0.2em] md:tracking-[0.4em] py-5 md:py-7 rounded-2xl hover:bg-[#b8916a] transition-all uppercase text-lg md:text-xl shadow-2xl mt-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {loading ? "Processing..." : isEditing ? "Update Product" : "Publish Product"}
             </button>
           </div>
         </div>

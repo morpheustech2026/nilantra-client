@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { 
-  LayoutDashboard, Upload, Plus, Edit, Trash2, Check, X 
-} from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { LayoutDashboard, Upload, Plus, Edit, Trash2, Check, X } from "lucide-react";
+import Loader from "../components/Loader";
+import Navbar from "../components/Navbar";
 
 const FURNITURE_DATA = {
   "Living Room": { subcategories: ["Sofa", "Chair", "Coffee Table", "TV Unit"], needsSeat: ["Sofa", "Chair"] },
@@ -13,7 +13,7 @@ const SEATING_OPTIONS = [1, 2, 3, 4, 5, 6, 8];
 const BED_SIZES = ["Single Cot", "Double Cot", "Queen Size", "King Size", "Family Cot"];
 
 function VendorDashboard() {
-  
+  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -68,6 +68,12 @@ function VendorDashboard() {
     colors: [], images: [], seat: [], stock: "", isFeatured: false, isBestSeller: false, isActive: true,
     vendor: "65a1234567890abcdef12345" 
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const timer = setTimeout(() => setLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -138,12 +144,13 @@ function VendorDashboard() {
     setFormData({ name: "", slug: "", description: "", mainCategory: "", subCategory: "", price: "", offerPrice: "", material: "", dimensions: { length: "", width: "", height: "" }, colors: [], images: [], seat: [], stock: "", isFeatured: false, isBestSeller: false, isActive: true, vendor: "65a1234567890abcdef12345" });
   };
 
+  if (loading) return <Loader />;
+
   return (
     <div className="relative min-h-screen font-sans bg-[#F8F9FA]"> 
+      <Navbar />
       <div className="relative z-10 p-4 md:p-6 pt-24 md:pt-40 text-[#001B3D]">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
-          
-          
           <div className="lg:col-span-5 space-y-6 order-2 lg:order-1">
             <header className="flex items-center gap-3">
                 <LayoutDashboard size={24} className="text-[#C7A17A]" />
@@ -190,7 +197,6 @@ function VendorDashboard() {
             </div>
           </div>
 
-          
           <div className="lg:col-span-7 order-1 lg:order-2">
             <form onSubmit={handleSubmit} className="bg-[#001B3D] rounded-[1.5rem] md:rounded-[3rem] p-6 md:p-12 shadow-[0_30px_60px_rgba(0,0,0,0.4)] border-t-8 border-[#C7A17A] lg:sticky lg:top-40 space-y-8 md:space-y-10 lg:max-h-[85vh] overflow-y-auto custom-scrollbar">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-2">
@@ -201,7 +207,6 @@ function VendorDashboard() {
                 <p className="text-[9px] md:text-[11px] text-[#C7A17A] font-black uppercase tracking-[0.4em]">Authentic Nilantra</p>
               </div>
 
-              
               <div className="space-y-4">
                 <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A] tracking-widest">Visual Portfolio</label>
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 md:gap-5">
@@ -219,14 +224,12 @@ function VendorDashboard() {
               </div>
 
               <div className="space-y-6 md:space-y-8">
-                
                 <div className="space-y-2 md:space-y-3">
                   <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A]">Title of Masterpiece</label>
                   <input name="name" value={formData.name} onChange={handleInputChange} className="w-full bg-transparent border-b-2 md:border-b-4 border-white/10 py-3 md:py-5 px-1 outline-none focus:border-[#C7A17A] text-xl md:text-3xl text-white font-bold placeholder:text-white/10" placeholder="e.g. Imperial Wardrobe" required />
                   <div className="text-[9px] md:text-[11px] text-[#C7A17A]/60 font-black mt-2 tracking-widest truncate">/product/{formData.slug || '...'}</div>
                 </div>
 
-                
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
                   <div className="space-y-2">
                     <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A]">Category</label>
@@ -244,7 +247,6 @@ function VendorDashboard() {
                   </div>
                 </div>
 
-                
                 {(formData.subCategory === "Bed" || (formData.mainCategory && FURNITURE_DATA[formData.mainCategory]?.needsSeat?.includes(formData.subCategory))) && (
                   <div className="space-y-4 md:p-8 bg-white/5 rounded-2xl md:rounded-[2.5rem] border border-[#C7A17A]/20 p-5 text-center shadow-inner">
                     <label className="text-[12px] md:text-[14px] font-black uppercase text-[#C7A17A] tracking-widest">Configurations</label>
@@ -258,7 +260,6 @@ function VendorDashboard() {
                   </div>
                 )}
 
-                
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
                   <div className="space-y-2">
                     <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A]">Base Rate (₹)</label>
@@ -270,7 +271,6 @@ function VendorDashboard() {
                   </div>
                 </div>
 
-                
                 <div className="space-y-5 bg-white/5 p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] border border-white/10">
                   <label className="text-[11px] md:text-[13px] font-black uppercase text-[#C7A17A] tracking-widest block">Premium Finish</label>
                   <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
@@ -293,7 +293,6 @@ function VendorDashboard() {
                   </div>
                 </div>
 
-               
                 <div className="bg-gradient-to-br from-[#002651] to-[#001B3D] p-5 md:p-10 rounded-2xl md:rounded-[3rem] border border-[#C7A17A]/20 shadow-2xl text-center">
                   <label className="text-[10px] md:text-[12px] font-black uppercase text-[#C7A17A] block mb-6 tracking-widest">Structural Mapping (CM)</label>
                   <div className="grid grid-cols-3 gap-3 md:gap-10">
@@ -306,7 +305,6 @@ function VendorDashboard() {
                   </div>
                 </div>
 
-                
                 <div className="grid grid-cols-3 gap-2 md:gap-5">
                   {[{id:'isFeatured', label:'EXCLUSIVE'}, {id:'isBestSeller', label:'BEST'}, {id:'isActive', label:'PUBLIC'}].map(flag => (
                     <label key={flag.id} className={`flex flex-col items-center gap-2 md:gap-4 p-3 md:p-6 rounded-xl md:rounded-[2rem] border-2 cursor-pointer transition-all ${formData[flag.id] ? 'bg-[#C7A17A] border-[#C7A17A] text-[#001B3D]' : 'bg-transparent border-white/10 text-[#C7A17A]/20'}`}>
@@ -317,10 +315,7 @@ function VendorDashboard() {
                   ))}
                 </div>
 
-              
                 <textarea name="description" placeholder="Craftsmanship story..." value={formData.description} onChange={handleInputChange} className="w-full border-b-2 md:border-b-4 border-white/10 py-4 md:py-8 px-2 md:px-4 text-sm md:text-lg font-bold text-white h-32 md:h-48 bg-transparent outline-none focus:border-[#C7A17A] resize-none" required />
-                
-                
                 <button type="submit" className="w-full bg-[#C7A17A] text-[#001B3D] py-5 md:py-8 rounded-xl md:rounded-[2.5rem] font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl text-sm md:text-xl active:scale-[0.98]">
                   {editingId ? "Refine Creation" : "Publish Piece"}
                 </button>
