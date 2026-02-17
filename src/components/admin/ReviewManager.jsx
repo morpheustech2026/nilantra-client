@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { FiStar, FiEdit2, FiTrash2, FiMessageSquare, FiCheck, FiUser } from "react-icons/fi";
+import { FiStar, FiTrash2, FiMessageSquare, FiUser, FiSend, FiX } from "react-icons/fi";
 import axios from "axios";
+// Importing Toast for better notifications
+import toast, { Toaster } from "react-hot-toast";
 
 const ReviewManager = () => {
   const [reviews, setReviews] = useState([]);
-  const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState({ userName: "", comment: "", rating: 5 });
+  const [replyingId, setReplyingId] = useState(null);
+  const [replyText, setReplyText] = useState("");
+
+  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
 
   useEffect(() => {
     fetchReviews();
@@ -13,140 +17,153 @@ const ReviewManager = () => {
 
   const fetchReviews = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/api/reviews/general");
-      const formatted = data.map(rev => ({
-        id: rev._id || rev.id,
-        userName: rev.name || rev.userName,
-        comment: rev.comment || rev.text,
-        rating: rev.rating,
-        date: rev.date || "2026-02-13"
-      }));
-      setReviews(formatted);
+      const { data } = await axios.get("http://localhost:3000/api/reviews");
+      setReviews(data);
     } catch (error) {
-      console.error("Error loading reviews", error);
+      toast.error("Failed to load reviews from the server.");
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Delete this review permanently?")) {
+    if (window.confirm("Are you sure you want to permanently delete this review?")) {
+      const loadingToast = toast.loading("Deleting review...");
       try {
-        await axios.delete(`http://localhost:3000/api/reviews/${id}`);
-        setReviews(reviews.filter((rev) => rev.id !== id));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        };
+
+        await axios.delete(`http://localhost:3000/api/reviews/${id}`, config);
+        setReviews(reviews.filter((rev) => (rev._id || rev.id) !== id));
+        toast.success("Review deleted successfully!", { id: loadingToast });
       } catch (error) {
-        alert("Delete failed.");
+        toast.error("Delete failed. Please ensure you have Admin permissions.", { id: loadingToast });
       }
     }
   };
 
-  const handleSave = async (id) => {
+  const handleReplySubmit = async (id) => {
+    if (!replyText.trim()) {
+        return toast.error("Please enter a reply message.");
+    }
+
+    const loadingToast = toast.loading("Sending your reply...");
     try {
-      const updatedData = {
-        name: editForm.userName,
-        comment: editForm.comment,
-        rating: editForm.rating
+      const config = {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
       };
-      await axios.put(`http://localhost:3000/api/reviews/${id}`, updatedData);
-      setReviews(reviews.map((rev) => (rev.id === id ? { ...rev, ...editForm } : rev)));
-      setEditingId(null);
+      
+      await axios.put(`http://localhost:3000/api/reviews/${id}`, { reply: replyText }, config);
+
+      await fetchReviews(); 
+      setReplyingId(null);
+      setReplyText("");
+      toast.success("Reply sent successfully!", { id: loadingToast });
     } catch (error) {
-      alert("Save failed.");
+      toast.error("Failed to send reply. Please try again.", { id: loadingToast });
     }
   };
 
-  const startEdit = (review) => {
-    setEditingId(review.id);
-    setEditForm({ userName: review.userName, comment: review.comment, rating: review.rating });
-  };
-
-  const inputStyle = "w-full bg-[#00152b] border border-[#c7a17a]/30 rounded-lg px-3 py-1.5 text-white text-xs outline-none focus:border-[#c7a17a] transition-all";
-  const labelStyle = "text-[8px] text-gray-500 uppercase font-bold mb-1 block tracking-widest";
-
   return (
-    <div className="w-full animate-in fade-in duration-700 space-y-4 px-4 md:px-0 max-w-4xl mx-auto">
-      
-      
-      <header className="border-b border-[#c7a17a]/20 pb-6 mb-6">
-        <div>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold italic tracking-tight text-[#001f3f] dark:text-white">
+    <div className="bg-white min-h-screen p-6 font-sans text-left">
+      <Toaster position="top-right" reverseOrder={false} />
+
+      <div className="max-w-7xl mx-auto">
+       
+
+        {/* PAGE SUB-HEADER */}
+        <header className="mb-10">
+          <h2 className="text-4xl font-serif font-bold italic tracking-tight text-[#001f3f]">
             Review Control Center
           </h2>
-          <p className="text-[#c7a17a] text-[10px] md:text-xs mt-1 uppercase tracking-[0.2em] font-bold">
-            Manage Artisan Feedback & Network
+          <p className="text-[#c7a17a] text-[10px] md:text-sm mt-1 uppercase tracking-widest font-bold">
+            ADMINISTRATIVE HUB / USER FEEDBACK
           </p>
-        </div>
-      </header>
+        </header>
 
-      
-      <section className="bg-[#001f3f] rounded-[1.5rem] p-4 md:p-6 border border-[#c7a17a]/10 shadow-xl">
-        <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-3">
-           <h3 className="text-[#c7a17a] font-bold uppercase text-[9px] tracking-[0.2em] flex items-center gap-2">
-             <FiMessageSquare size={12}/>
-             Active Reviews
-           </h3>
-           <span className="bg-[#c7a17a]/20 text-[#c7a17a] px-2 py-0.5 rounded text-[9px] font-bold">
-             {reviews.length} Total
-           </span>
-        </div>
-
-        <div className="grid gap-3">
-          {reviews.map((rev) => (
-            <div key={rev.id} className="group bg-[#00152b] rounded-xl p-4 border border-white/5 hover:border-[#c7a17a]/30 transition-all">
-              {editingId === rev.id ? (
-                <div className="space-y-3">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className={labelStyle}>Name</label>
-                      <input className={inputStyle} value={editForm.userName} onChange={(e)=>setEditingId({...editForm, userName: e.target.value})}/>
+        {/* REVIEWS GRID */}
+        <div className="grid gap-6">
+          {reviews.length > 0 ? (
+            reviews.map((rev) => (
+              <div key={rev._id} className="bg-[#001f3f] rounded-[2.5rem] p-8 shadow-[0_20px_50px_-15px_rgba(0,31,63,0.4)] border border-white/5">
+                <div className="flex justify-between items-start">
+                  <div className="flex gap-6">
+                    <div className="h-12 w-12 bg-white/10 rounded-2xl flex items-center justify-center text-[#d4af37] border border-white/20 shadow-inner">
+                      <FiUser size={22} />
                     </div>
                     <div>
-                      <label className={labelStyle}>Stars</label>
-                      <select className={inputStyle} value={editForm.rating} onChange={(e)=>setEditForm({...editForm, rating: Number(e.target.value)})}>
-                        {[5,4,3,2,1].map(n => <option key={n} value={n}>{n} Stars</option>)}
-                      </select>
-                    </div>
-                  </div>
-                  <textarea className={`${inputStyle} h-16`} value={editForm.comment} onChange={(e)=>setEditForm({...editForm, comment: e.target.value})}/>
-                  <div className="flex gap-2">
-                    <button onClick={() => handleSave(rev.id)} className="bg-[#c7a17a] text-[#001f3f] px-3 py-1.5 rounded-md text-[10px] font-bold flex items-center gap-1"><FiCheck size={12}/> Save</button>
-                    <button onClick={() => setEditingId(null)} className="text-gray-500 text-[10px] font-bold">Cancel</button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex justify-between items-center gap-4">
-                  <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="bg-[#c7a17a]/5 p-2.5 rounded-lg text-[#c7a17a] shrink-0 border border-[#c7a17a]/10">
-                        <FiUser size={16}/>
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-serif font-bold text-sm text-white truncate">{rev.userName}</h4>
-                        <div className="flex text-[#c7a17a] gap-0.5">
+                      <div className="flex items-center gap-4">
+                        <h4 className="font-bold text-white text-lg tracking-wide">{rev.name || rev.user?.name}</h4>
+                        <div className="flex text-[#d4af37]">
                           {[...Array(5)].map((_, i) => (
-                              <FiStar key={i} size={8} fill={i < rev.rating ? "currentColor" : "none"} className={i < rev.rating ? "" : "opacity-20"}/>
+                            <FiStar key={i} size={12} fill={i < rev.rating ? "currentColor" : "none"} className={i < rev.rating ? "" : "opacity-20"} />
                           ))}
                         </div>
                       </div>
-                      <p className="text-gray-400 italic text-xs leading-snug mt-0.5 line-clamp-1 group-hover:line-clamp-none transition-all">
-                        "{rev.comment}"
-                      </p>
+                      <p className="text-white/70 mt-3 italic text-base leading-relaxed">"{rev.comment}"</p>
+
+                      {rev.reply && (
+                        <div className="mt-5 bg-white/5 p-4 rounded-2xl border-l-2 border-[#d4af37] ml-2">
+                          <p className="text-[10px] text-[#d4af37] font-black uppercase tracking-widest">Admin Reply</p>
+                          <p className="text-sm text-white/60 mt-2 italic">{rev.reply}</p>
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className="flex gap-1.5 shrink-0 opacity-40 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => startEdit(rev)} className="p-2 bg-white/5 rounded-lg hover:bg-[#c7a17a] hover:text-[#001f3f] transition-all"><FiEdit2 size={12}/></button>
-                    <button onClick={() => handleDelete(rev.id)} className="p-2 bg-red-500/5 text-red-500 hover:bg-red-500 hover:text-white transition-all"><FiTrash2 size={12}/></button>
+
+                  <div className="flex gap-3">
+                    <button 
+                        onClick={() => { setReplyingId(rev._id); setReplyText(rev.reply || ""); }} 
+                        className="p-3.5 bg-white/10 text-[#d4af37] rounded-2xl hover:bg-[#d4af37] hover:text-[#001f3f] transition-all border border-white/10"
+                        title="Reply to Review"
+                    >
+                        <FiMessageSquare size={18} />
+                    </button>
+                    <button 
+                        onClick={() => handleDelete(rev._id)} 
+                        className="p-3.5 bg-red-500/10 text-red-400 rounded-2xl hover:bg-red-500 hover:text-white transition-all border border-red-500/20"
+                        title="Delete Review"
+                    >
+                        <FiTrash2 size={18} />
+                    </button>
                   </div>
                 </div>
-              )}
-            </div>
-          ))}
 
-          {reviews.length === 0 && (
-            <div className="text-center py-10 border border-dashed border-white/5 rounded-xl">
-                <p className="text-gray-500 font-serif italic text-xs">No active reviews.</p>
+                {replyingId === rev._id && (
+                  <div className="mt-8 pt-8 border-t border-white/10 animate-in fade-in duration-300">
+                    <textarea
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-sm outline-none focus:border-[#d4af37] text-white placeholder-white/20 transition-all"
+                      placeholder="Write your professional response here..."
+                      value={replyText}
+                      onChange={(e) => setReplyText(e.target.value)}
+                      rows="4"
+                    />
+                    <div className="flex gap-4 mt-4">
+                      <button 
+                        onClick={() => handleReplySubmit(rev._id)} 
+                        className="bg-[#d4af37] text-[#001f3f] px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-transform"
+                      >
+                        <FiSend /> Send Reply
+                      </button>
+                      <button 
+                        onClick={() => setReplyingId(null)} 
+                        className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] hover:text-white transition-colors"
+                      >
+                        <FiX className="inline mr-1" /> Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-24 bg-[#001f3f] rounded-[2.5rem] border border-dashed border-white/10">
+                <p className="text-white/30 italic font-serif text-lg">No reviews found in the secure system.</p>
             </div>
           )}
         </div>
-      </section>
+      </div>
     </div>
   );
 };

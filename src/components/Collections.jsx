@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { motion } from "framer-motion"; // Added for staggered text animation
 
 /* ================= COLLECTION DATA ================= */
 const originalCollections = [
@@ -9,7 +10,6 @@ const originalCollections = [
   { slug: "kitchen", title: "Kitchen" },
   { slug: "garden", title: "Garden Furniture" },
   { slug: "office", title: "Office Furniture" },
-  // { slug: "theatre-room", title: "Theatre Room" },
 ];
 
 const collections = [
@@ -36,13 +36,12 @@ function Collections() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
-          observer.disconnect();
         }
       },
       { threshold: 0.25 }
     );
-
     if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
   }, []);
 
   /* ================= PARALLAX ================= */
@@ -52,7 +51,6 @@ function Collections() {
       const rect = sectionRef.current.getBoundingClientRect();
       setParallaxY(rect.top * 0.12);
     };
-
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -61,15 +59,12 @@ function Collections() {
   const slideNext = () => {
     const slider = sliderRef.current;
     if (!slider) return;
-
     const step = 360 + 40;
     const singleWidth = slider.scrollWidth / 3;
-
     if (slider.scrollLeft >= singleWidth * 2) {
       slider.style.scrollBehavior = "auto";
       slider.scrollLeft = singleWidth;
     }
-
     slider.style.scrollBehavior = "smooth";
     slider.scrollLeft += step;
   };
@@ -77,15 +72,12 @@ function Collections() {
   const slidePrev = () => {
     const slider = sliderRef.current;
     if (!slider) return;
-
     const step = 360 + 40;
     const singleWidth = slider.scrollWidth / 3;
-
     if (slider.scrollLeft <= singleWidth) {
       slider.style.scrollBehavior = "auto";
       slider.scrollLeft = singleWidth * 2;
     }
-
     slider.style.scrollBehavior = "smooth";
     slider.scrollLeft -= step;
   };
@@ -94,12 +86,10 @@ function Collections() {
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
-
     const autoPlay = setInterval(() => {
       if (slider.matches(":hover")) return;
       slideNext();
     }, 3000);
-
     return () => clearInterval(autoPlay);
   }, []);
 
@@ -107,14 +97,11 @@ function Collections() {
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
-
     const updateCenter = () => {
       const cards = slider.children;
       const center = slider.offsetWidth / 2 + slider.scrollLeft;
-
       let closest = 0;
       let min = Infinity;
-
       Array.from(cards).forEach((card, i) => {
         const cardCenter = card.offsetLeft + card.offsetWidth / 2;
         const dist = Math.abs(center - cardCenter);
@@ -123,24 +110,12 @@ function Collections() {
           closest = i;
         }
       });
-
       setCenterIndex(closest);
     };
-
     slider.addEventListener("scroll", updateCenter);
     updateCenter();
-
     return () => slider.removeEventListener("scroll", updateCenter);
   }, []);
-
-  /* ================= CLEANUP ON ROUTE CHANGE ================= */
-  useEffect(() => {
-    return () => {
-      if (sliderRef.current) {
-        sliderRef.current.style.scrollBehavior = "auto";
-      }
-    };
-  }, [location.pathname]);
 
   return (
     <section
@@ -157,40 +132,64 @@ function Collections() {
         }}
       />
 
-      {/* LEFT CLICK ZONE – ONLY INSIDE COLLECTIONS */}
-      <div
-        className="absolute left-0 top-0 h-full w-[12%] z-20 cursor-w-resize"
-        onClick={(e) => {
-          e.stopPropagation();
-          slidePrev();
-        }}
-      />
-
-      {/* RIGHT CLICK ZONE – ONLY INSIDE COLLECTIONS */}
-      <div
-        className="absolute right-0 top-0 h-full w-[12%] z-20 cursor-e-resize"
-        onClick={(e) => {
-          e.stopPropagation();
-          slideNext();
-        }}
-      />
+      {/* Navigation Zones */}
+      <div className="absolute left-0 top-0 h-full w-[12%] z-20 cursor-w-resize" onClick={(e) => { e.stopPropagation(); slidePrev(); }} />
+      <div className="absolute right-0 top-0 h-full w-[12%] z-20 cursor-e-resize" onClick={(e) => { e.stopPropagation(); slideNext(); }} />
 
       <div className="relative z-20 max-w-7xl mx-auto px-6">
-        <p
-          className={`text-[11px] uppercase tracking-[0.45em] mb-4 transition-opacity duration-700 ${
-            visible ? "opacity-100" : "opacity-0"
-          }`}
+        
+        {/* UPDATED STYLISH SUBTITLE */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={visible ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="flex items-center gap-4 mb-6"
         >
-          OUR COLLECTIONS
-        </p>
+          <span className="h-[2px] w-12 bg-gradient-to-r from-[#d4af37] to-transparent" />
+          <p className="text-[10px] md:text-[12px] uppercase tracking-[0.6em] font-black text-[#d4af37] drop-shadow-sm">
+            Our Collections
+          </p>
+        </motion.div>
 
+        {/* UPDATED STYLISH HEADING */}
         <h2
-          className="text-4xl md:text-[42px]"
-          style={{ transform: `translateY(${parallaxY}px)` }}
+          className="text-5xl md:text-7xl font-serif leading-[1.1] text-[#001f3f] tracking-tight mb-4"
+          style={{ 
+            transform: `translateY(${parallaxY}px)`,
+            transition: "transform 0.2s ease-out" 
+          }}
         >
-          Crafted for <span className="text-[#062859]">Timeless</span> Living
+          <motion.span 
+            initial={{ opacity: 0, y: 30 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="block font-medium"
+          >
+            Crafted for
+          </motion.span>
+          
+          <motion.span 
+            initial={{ opacity: 0, y: 30 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative inline-block mt-3"
+          >
+            <span className="italic font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#f5e1a4] to-[#8a6d2d] drop-shadow-md">
+              Timeless
+            </span>
+            
+            <motion.span 
+              initial={{ width: 0 }}
+              animate={visible ? { width: '100%' } : {}}
+              transition={{ duration: 1, delay: 0.8 }}
+              className="absolute -bottom-2 left-0 h-[2px] bg-[#d4af37]/40 rounded-full"
+            />
+            
+            <span className="ml-4 font-light text-[#001f3f] opacity-90">Living</span>
+          </motion.span>
         </h2>
 
+        {/* Slider Logic Remains Same */}
         <div className="mt-14 max-w-[1160px] mx-auto overflow-visible">
           <div
             ref={sliderRef}
@@ -199,14 +198,11 @@ function Collections() {
           >
             {collections.map((col, index) => {
               const isCenter = index === centerIndex;
-
               return (
                 <div
                   key={`${col.slug}-${index}`}
                   onClick={() => navigate(`/collections/${col.slug}`)}
-                  onMouseEnter={() =>
-                    setHoverBg(`/collections/${col.slug}.jpeg`)
-                  }
+                  onMouseEnter={() => setHoverBg(`/collections/${col.slug}.jpeg`)}
                   onMouseLeave={() => setHoverBg(null)}
                   className="group relative w-[360px] h-[450px] flex-shrink-0 rounded-[35px] overflow-hidden cursor-pointer shadow-xl transition-all duration-700"
                   style={{
@@ -220,12 +216,10 @@ function Collections() {
                     alt={col.title}
                     className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
                   />
-
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
                   <div className="absolute bottom-8 left-8 right-8 text-white">
-                    <h3 className="text-2xl mb-2">{col.title}</h3>
-                    <p className="text-[#c9a24d] text-xs tracking-wider opacity-0 group-hover:opacity-100 transition">
+                    <h3 className="text-2xl mb-2 font-serif italic">{col.title}</h3>
+                    <p className="text-[#d4af37] text-xs font-bold tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
                       VIEW COLLECTION →
                     </p>
                   </div>
@@ -236,12 +230,7 @@ function Collections() {
         </div>
       </div>
 
-      {/* Hide scrollbar */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `.no-scrollbar::-webkit-scrollbar{display:none}`,
-        }}
-      />
+      <style dangerouslySetInnerHTML={{ __html: `.no-scrollbar::-webkit-scrollbar{display:none}` }} />
     </section>
   );
 }
