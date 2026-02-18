@@ -53,7 +53,7 @@ export default function ProductDetailed() {
     <div className="bg-gray-50 min-h-screen pt-40 pb-20 text-gray-800">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16">
         
-        {/* IMAGE SECTION */}
+       
         <motion.div initial="hidden" animate="visible" variants={fadeUp}>
           <motion.img
             src={activeImg || "https://via.placeholder.com/500"}

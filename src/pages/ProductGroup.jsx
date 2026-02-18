@@ -2,10 +2,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../components/Loader";
+import axios from "axios";
 
 function ProductGroup() {
   const { category, type } = useParams(); // URL params (eg: living-room, table)
   const navigate = useNavigate();
+
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
