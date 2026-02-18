@@ -25,7 +25,7 @@ const UserList = () => {
       };
 
      
-      const { data } = await axios.get("http://localhost:3000/api/users", config);
+      const { data } = await axios.get("http://localhost:3000/api/user", config);
       
       console.log("Users fetched:", data); 
       setUsers(data);

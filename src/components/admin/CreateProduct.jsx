@@ -5,9 +5,18 @@ import toast from 'react-hot-toast';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const FURNITURE_DATA = {
-  "Living Room": { subcategories: ["Sofa", "Chair", "Coffee Table", "TV Unit"], needsSeat: ["Sofa", "Chair"] },
-  "Bedroom": { subcategories: ["Bed", "Wardrobe", "Dressing Table"], needsSize: ["Bed"] },
-  "Dining": { subcategories: ["Dining Table", "Dining Chair"], needsSeat: ["Dining Table", "Dining Chair"] }
+  "Living Room": { 
+    subcategories: ["Sofa", "Diwan Bed", "Chair", "Coffee Table", "Media Unit", "Storage", "Recliner", "Indoor Swing"], 
+    needsSeat: ["Sofa", "Chair", "Recliner"] 
+  },
+  "Dining": { 
+    subcategories: ["Dining Table", "Dining Chair", "Crockery Unit", "Bar Cabinet"], 
+    needsSeat: ["Dining Table", "Dining Chair"] 
+  },
+  "Bedroom": { 
+    subcategories: ["Bed", "Wardrobe", "Side Table", "Dresser"], 
+    needsSize: ["Bed"] 
+  }
 };
 
 const SEATING_OPTIONS = [1, 2, 3, 4, 5, 6, 8];
