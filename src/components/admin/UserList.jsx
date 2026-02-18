@@ -12,9 +12,22 @@ const UserList = () => {
 
   const fetchUsers = async () => {
     try {
-      if (!userInfo?.token) return;
-      const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
+      if (!userInfo || !userInfo.token) {
+        console.error("Token missing! Please login again.");
+        setLoading(false);
+        return;
+      }
+
+      const config = {
+        headers: { 
+          Authorization: `Bearer ${userInfo.token}` 
+        },
+      };
+
+     
       const { data } = await axios.get("http://localhost:3000/api/user", config);
+      
+      console.log("Users fetched:", data); 
       setUsers(data);
     } catch (error) {
       toast.error("Failed to load users from database");

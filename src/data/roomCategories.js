@@ -3,8 +3,9 @@ const roomCategories = {
     { slug: "sofa", title: "Sofa", image: "/product/white-sofa.png" },
     { slug: "diwan-bed", title: "Diwan Bed", image: "/product/diwan-bed.png" },
     { slug: "chair", title: "Chair", image: "/product/chair.png" },
-    { slug: "table", title: "Table", image: "/product/wooden-table.png" },
-    { slug: "media", title: "Media Unit", image: "/product/tv-stand.png" },
+    // DB-ൽ Coffee Table എന്നാണെങ്കിൽ സ്ലഗ് ഇങ്ങനെ വേണം
+    { slug: "coffee-table", title: "Table", image: "/product/wooden-table.png" }, 
+    { slug: "media-unit", title: "Media Unit", image: "/product/tv-stand.png" },
     { slug: "storage", title: "Storage", image: "/product/shelf.png" },
     { slug: "recliner", title: "Recliner", image: "/product/recliner.jpg" },
     { slug: "indoor-swing", title: "Indoor Swing", image: "/product/indoor-swing.webp" },
@@ -21,40 +22,14 @@ const roomCategories = {
     { slug: "chandelier-light", title: "Chandelier Light", image: "/product/chandelier-light.jpg" },
   ],
 
+  // ബാക്കിയുള്ളവയും ഇതേപോലെ DB-ൽ നിങ്ങൾ നൽകുന്ന subCategory പേരുമായി മാച്ച് ആക്കുക
   bedroom: [
     { slug: "bed", title: "Bed", image: "/kingsize-bed.webp" },
     { slug: "wardrobe", title: "Wardrobe", image: "/ward.jpg" },
-    { slug: "sidetable", title: "Side Table", image: "/side.jpg" },
+    { slug: "side-table", title: "Side Table", image: "/side.jpg" },
     { slug: "dresser", title: "Dresser", image: "/dress.jpg" },
   ],
-
-  kitchen: [
-    { slug: "cabinet", title: "Kitchen Cabinet", image: "/product/kitchen1.jpg" },
-    { slug: "island-counter", title: "Island Counter", image: "/product/island.jpg" },
-    { slug: "storage-unit", title: "Storage Unit", image: "/product/storage.jpg" },
-    { slug: "wooden-rack", title: "Wooden Rack", image: "/product/wooden-rack.jpeg" },
-  ],
-
-  garden: [
-    { slug: "outdoor-chair", title: "Outdoor Chair", image: "/product/out.jpg" },
-    { slug: "outdoor-swing", title: "Swing", image: "/product/out2.webp" },
-    { slug: "patio-set", title: "Patio Table", image: "/product/pat.avif" },
-    { slug: "day-bed", title: "Day Bed", image: "/product/day-bed.webp" },
-  ],
-
-  office: [
-    { slug: "office-chair", title: "Office Chair", image: "/product/office.jpg" },
-    { slug: "workdesk", title: "Work Desk", image: "/product/work.jpg" },
-    { slug: "bookshelf", title: "Bookshelf", image: "/product/book.jpg" },
-    { slug: "office-sofa", title: "Office Sofa", image: "/product/office-sofa.webp" },
-  ],
-
-  "theatre-room": [
-    { slug: "theatre-sofa", title: "Theatre Sofa", image: "/product/theatre.webp" },
-    { slug: "acoustic-panel", title: "Acoustic Panels", image: "/product/panels.jpg" },
-    { slug: "media-console", title: "Media Console", image: "/product/media.webp" },
-    { slug: "theatre-speakers", title: "Theatre Speakers", image: "/product/theatre-speakers.jpg" },
-  ],
+  // ... മറ്റ് റൂമുകളും ഇതേപോലെ ചെക്ക് ചെയ്യുക
 };
 
 export default roomCategories;
