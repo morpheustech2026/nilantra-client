@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiPlus, FiUpload, FiX } from "react-icons/fi";
 import axios from 'axios';
-import toast from 'react-hot-toast'; 
+import toast from 'react-hot-toast';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const FURNITURE_DATA = {
@@ -17,10 +17,10 @@ const CreateProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  
+
   const [uploadMode, setUploadMode] = useState("file");
   const [previews, setPreviews] = useState([]);
-  const [colorInput, setColorInput] = useState(""); 
+  const [colorInput, setColorInput] = useState("");
   const [hexColor, setHexColor] = useState("#c7a17a");
   const [imageUrlInput, setImageUrlInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ const CreateProduct = () => {
 
   const inputStyle = "w-full bg-[#00152b] border border-[#c7a17a]/30 rounded-xl px-4 py-3 md:py-4 outline-none focus:border-[#c7a17a] text-white transition-all text-sm";
 
-  
+
   useEffect(() => {
     if (id) {
       setIsEditing(true);
@@ -190,8 +190,8 @@ const CreateProduct = () => {
       </header>
 
       <form onSubmit={handleSubmit} className="bg-[#001f3f] rounded-2xl md:rounded-[2rem] p-6 md:p-10 space-y-8 md:space-y-10 shadow-2xl border border-[#c7a17a]/10">
-        
-       
+
+
         <div className="space-y-4">
           <div className="flex justify-between items-center text-white">
             <label className="text-[10px] md:text-xs text-[#c7a17a] font-bold uppercase tracking-widest ml-1">Images Array</label>
@@ -211,13 +211,13 @@ const CreateProduct = () => {
             ) : (
               <div className="col-span-full flex gap-2">
                 <input value={imageUrlInput} placeholder="Paste direct link" onChange={(e) => setImageUrlInput(e.target.value)} className={inputStyle} />
-                <button type="button" onClick={addImageUrl} className="bg-[#c7a17a] text-[#001f3f] px-4 rounded-xl"><FiPlus size={20}/></button>
+                <button type="button" onClick={addImageUrl} className="bg-[#c7a17a] text-[#001f3f] px-4 rounded-xl"><FiPlus size={20} /></button>
               </div>
             )}
             {previews.map((src, i) => (
               <div key={i} className="relative aspect-square rounded-2xl overflow-hidden border border-[#c7a17a]/20 group">
                 <img src={src} className="w-full h-full object-cover" alt="preview" />
-                <button type="button" onClick={() => removeImage(i)} className="absolute top-2 right-2 bg-red-500 p-1 rounded-full text-white md:opacity-0 group-hover:opacity-100 transition-opacity"><FiX size={12}/></button>
+                <button type="button" onClick={() => removeImage(i)} className="absolute top-2 right-2 bg-red-500 p-1 rounded-full text-white md:opacity-0 group-hover:opacity-100 transition-opacity"><FiX size={12} /></button>
               </div>
             ))}
           </div>
@@ -226,9 +226,9 @@ const CreateProduct = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 text-white">
           <div className="space-y-6">
             <div>
-               <label className="text-[10px] text-gray-500 uppercase font-bold ml-1 mb-2 block tracking-widest">Name & Slug</label>
-               <input name="name" value={formData.name} placeholder="e.g. Royal Bed" onChange={handleInputChange} className={inputStyle} required />
-               <div className="text-[9px] text-[#c7a17a] mt-2 ml-1 italic truncate opacity-60">Path: /product/{formData.slug}</div>
+              <label className="text-[10px] text-gray-500 uppercase font-bold ml-1 mb-2 block tracking-widest">Name & Slug</label>
+              <input name="name" value={formData.name} placeholder="e.g. Royal Bed" onChange={handleInputChange} className={inputStyle} required />
+              <div className="text-[9px] text-[#c7a17a] mt-2 ml-1 italic truncate opacity-60">Path: /product/{formData.slug}</div>
             </div>
 
             <div className="space-y-3">
@@ -238,12 +238,12 @@ const CreateProduct = () => {
                   <input type="color" value={hexColor} onChange={(e) => setHexColor(e.target.value)} className="absolute inset-0 w-[200%] h-[200%] cursor-pointer -translate-x-1/4 -translate-y-1/4" />
                 </div>
                 <input value={colorInput} placeholder="Color Name" onChange={(e) => setColorInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addColor())} className={inputStyle} />
-                <button type="button" onClick={() => addColor(colorInput || hexColor)} className="bg-[#c7a17a] text-[#001f3f] px-3 md:px-4 rounded-xl shrink-0"><FiPlus size={20}/></button>
+                <button type="button" onClick={() => addColor(colorInput || hexColor)} className="bg-[#c7a17a] text-[#001f3f] px-3 md:px-4 rounded-xl shrink-0"><FiPlus size={20} /></button>
               </div>
               <div className="flex flex-wrap gap-2">
                 {formData.colors.map((c, i) => (
                   <span key={i} className="bg-[#c7a17a]/10 border border-[#c7a17a]/30 px-3 py-1.5 rounded-full text-[9px] md:text-[10px] flex items-center gap-2 uppercase tracking-tighter">
-                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: c.startsWith('#') ? c : '#fff'}}></div>
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: c.startsWith('#') ? c : '#fff' }}></div>
                     {c} <FiX className="cursor-pointer hover:text-red-500" onClick={() => removeColor(c)} />
                   </span>
                 ))}
@@ -257,7 +257,7 @@ const CreateProduct = () => {
               <input type="number" name="offerPrice" value={formData.offerPrice} placeholder="Sale ₹" onChange={handleInputChange} className={inputStyle} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <select name="mainCategory" value={formData.mainCategory} onChange={(e) => setFormData({...formData, mainCategory: e.target.value, subCategory: "", seat: []})} className={inputStyle} required>
+              <select name="mainCategory" value={formData.mainCategory} onChange={(e) => setFormData({ ...formData, mainCategory: e.target.value, subCategory: "", seat: [] })} className={inputStyle} required>
                 <option value="">Main Category</option>
                 {Object.keys(FURNITURE_DATA).map(cat => <option key={cat} value={cat}>{cat}</option>)}
               </select>
@@ -271,7 +271,7 @@ const CreateProduct = () => {
           </div>
         </div>
 
-   
+
         {(formData.mainCategory && (FURNITURE_DATA[formData.mainCategory]?.needsSeat?.includes(formData.subCategory) || FURNITURE_DATA[formData.mainCategory]?.needsSize?.includes(formData.subCategory))) && (
           <div className="p-5 md:p-8 bg-black/30 rounded-2xl md:rounded-[2rem] border border-[#c7a17a]/20 animate-in fade-in slide-in-from-top-4 duration-500 text-white">
             {FURNITURE_DATA[formData.mainCategory]?.needsSeat?.includes(formData.subCategory) && (
@@ -287,11 +287,11 @@ const CreateProduct = () => {
               </div>
             )}
             {FURNITURE_DATA[formData.mainCategory]?.needsSize?.includes(formData.subCategory) && (
-               <div className="space-y-4">
+              <div className="space-y-4">
                 <label className="text-[10px] md:text-xs text-[#c7a17a] font-bold uppercase tracking-[0.2em]">Bed Size</label>
                 <div className="flex flex-wrap gap-2">
                   {BED_SIZES.map(size => (
-                    <button key={size} type="button" onClick={() => setFormData({...formData, material: size})} className={`px-4 py-2 rounded-xl border-2 transition-all text-[10px] font-black ${formData.material === size ? 'bg-[#c7a17a] text-[#001f3f] border-[#c7a17a]' : 'border-[#c7a17a]/10 text-gray-500'}`}>
+                    <button key={size} type="button" onClick={() => setFormData({ ...formData, material: size })} className={`px-4 py-2 rounded-xl border-2 transition-all text-[10px] font-black ${formData.material === size ? 'bg-[#c7a17a] text-[#001f3f] border-[#c7a17a]' : 'border-[#c7a17a]/10 text-gray-500'}`}>
                       {size}
                     </button>
                   ))}
@@ -307,8 +307,8 @@ const CreateProduct = () => {
             <div className="space-y-4">
               {['length', 'width', 'height'].map(dim => (
                 <div key={dim} className="flex items-center gap-3">
-                   <span className="text-[10px] text-gray-500 w-8 uppercase">{dim.slice(0,3)}</span>
-                   <input name={`dim_${dim}`} placeholder="00" value={formData.dimensions[dim]} onChange={handleInputChange} className="w-full bg-[#001224] border border-[#c7a17a]/20 rounded-xl px-4 py-2 text-center text-sm text-white focus:border-[#c7a17a]" />
+                  <span className="text-[10px] text-gray-500 w-8 uppercase">{dim.slice(0, 3)}</span>
+                  <input name={`dim_${dim}`} placeholder="00" value={formData.dimensions[dim]} onChange={handleInputChange} className="w-full bg-[#001224] border border-[#c7a17a]/20 rounded-xl px-4 py-2 text-center text-sm text-white focus:border-[#c7a17a]" />
                 </div>
               ))}
             </div>
@@ -316,22 +316,22 @@ const CreateProduct = () => {
 
           <div className="lg:col-span-2 space-y-6 flex flex-col justify-between">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-               <div>
-                 <label className="text-[10px] text-gray-500 uppercase font-bold mb-2 block tracking-widest">Stock Status</label>
-                 <input type="number" name="stock" value={formData.stock} placeholder="Inventory Count" onChange={handleInputChange} className={inputStyle} />
-               </div>
-               <div className="flex gap-2 items-end">
-                  {[{id:"isFeatured", l:"Exclusive"}, {id:"isBestSeller", l:"Best Seller"}, {id:"isActive", l:"Public"}].map(t => (
-                     <label key={t.id} className={`flex-1 p-3 rounded-xl border cursor-pointer transition-all flex flex-col items-center gap-2 ${formData[t.id] ? 'bg-[#c7a17a]/10 border-[#c7a17a]' : 'bg-black/20 border-white/5'}`}>
-                        <input type="checkbox" name={t.id} checked={formData[t.id]} onChange={handleInputChange} className="w-3 h-3 accent-[#c7a17a]" />
-                        <span className="text-[8px] font-black uppercase tracking-tighter text-center">{t.l}</span>
-                     </label>
-                  ))}
-               </div>
+              <div>
+                <label className="text-[10px] text-gray-500 uppercase font-bold mb-2 block tracking-widest">Stock Status</label>
+                <input type="number" name="stock" value={formData.stock} placeholder="Inventory Count" onChange={handleInputChange} className={inputStyle} />
+              </div>
+              <div className="flex gap-2 items-end">
+                {[{ id: "isFeatured", l: "Exclusive" }, { id: "isBestSeller", l: "Best Seller" }, { id: "isActive", l: "Public" }].map(t => (
+                  <label key={t.id} className={`flex-1 p-3 rounded-xl border cursor-pointer transition-all flex flex-col items-center gap-2 ${formData[t.id] ? 'bg-[#c7a17a]/10 border-[#c7a17a]' : 'bg-black/20 border-white/5'}`}>
+                    <input type="checkbox" name={t.id} checked={formData[t.id]} onChange={handleInputChange} className="w-3 h-3 accent-[#c7a17a]" />
+                    <span className="text-[8px] font-black uppercase tracking-tighter text-center">{t.l}</span>
+                  </label>
+                ))}
+              </div>
             </div>
-            
-            <button 
-              type="submit" 
+
+            <button
+              type="submit"
               disabled={loading}
               className={`w-full bg-[#c7a17a] text-[#001f3f] font-black tracking-[0.2em] md:tracking-[0.4em] py-5 md:py-7 rounded-2xl hover:bg-[#b8916a] transition-all uppercase text-lg md:text-xl shadow-2xl mt-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
