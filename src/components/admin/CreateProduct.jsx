@@ -135,7 +135,6 @@ const CreateProduct = () => {
     return;
   }
 
-  // ലോഡിംഗ് കാണിക്കാൻ ഒരു ഐഡി സെറ്റ് ചെയ്യുന്നു
   const loadToast = toast.loading(isEditing ? "Updating Product..." : "Publishing Product...");
 
   try {
@@ -166,7 +165,6 @@ const CreateProduct = () => {
     });
 
     if (response.status === 200 || response.status === 201) {
-      // സക്സസ് മെസ്സേജ് കാണിക്കുന്നു (ലോഡിംഗ് ടോസ്റ്റിനെ റീപ്ലേസ് ചെയ്യുന്നു)
       toast.success(isEditing ? "Product updated successfully! ✅" : "Product added successfully! 🚀", { id: loadToast });
       
       if (!isEditing) {
@@ -178,7 +176,6 @@ const CreateProduct = () => {
     }
   } catch (error) {
     const msg = error.response?.data?.message || "Operation failed";
-    // എറർ മെസ്സേജ് കാണിക്കുന്നു
     toast.error("Error: " + msg, { id: loadToast });
   } finally {
     setLoading(false);

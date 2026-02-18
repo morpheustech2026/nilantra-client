@@ -2,44 +2,35 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../components/Loader";
-import axios from "axios";
 
 function ProductGroup() {
-  const { category, type } = useParams(); // URL params (eg: living-room, table)
+  const { category, type } = useParams(); 
   const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        // 1. API Call
+        // API Call
         const response = await axios.get("http://localhost:3000/api/products");
         const allProducts = response.data;
 
-        // 2. URL Formatting
-        // URL-ൽ "living-room" എന്ന് വരുന്നത് "living room" ആക്കുന്നു.
-        const targetCategory = category ? category.replace(/-/g, " ").toLowerCase().trim() : "";
-        const targetType = type ? type.replace(/-/g, " ").toLowerCase().trim() : "";
+        // Filtering Logic
+        const filtered = allProducts.filter((p) => {
+          let urlCat = category ? category.replace(/-/g, " ").toLowerCase().trim() : "";
+          const urlTyp = type ? type.replace(/-/g, " ").toLowerCase().trim() : "";
 
-        // 3. Filter Logic (DB-ൽ നിന്നുള്ള ഡാറ്റയും URL ഉം താരതമ്യം ചെയ്യുന്നു)
-      const filtered = allProducts.filter((p) => {
-  // 1. URL-ൽ നിന്ന് കിട്ടുന്നവ (eg: dining-room, dining-table)
-  let urlCat = category ? category.replace(/-/g, " ").toLowerCase().trim() : "";
-  const urlTyp = type ? type.replace(/-/g, " ").toLowerCase().trim() : "";
+          // Dining Room എന്നത് DB-യിൽ Dining എന്നാണെങ്കിൽ അത് മാച്ച് ചെയ്യാൻ
+          if (urlCat === "dining room") urlCat = "dining";
 
-  // വിശേഷാൽ തിരുത്തൽ: dining-room എന്ന് വന്നാൽ അതിനെ dining ആക്കി മാറ്റുന്നു
-  if (urlCat === "dining room") urlCat = "dining";
-
-  // 2. Database-ൽ ഉള്ളവ (eg: Dining, Dining Table)
-  const dbCat = p.mainCategory ? p.mainCategory.toLowerCase().trim() : "";
-  const dbTyp = p.subCategory ? p.subCategory.toLowerCase().trim() : "";
-  
-  return dbCat === urlCat && dbTyp === urlTyp;
-});
+          const dbCat = p.mainCategory ? p.mainCategory.toLowerCase().trim() : "";
+          const dbTyp = p.subCategory ? p.subCategory.toLowerCase().trim() : "";
+          
+          return dbCat === urlCat && dbTyp === urlTyp;
+        });
 
         setProducts(filtered);
       } catch (error) {
@@ -73,12 +64,11 @@ function ProductGroup() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {products.map((product) => (
               <div
-                key={product._id} 
+                key={product._id}
                 onClick={() => navigate(`/product-details/${product._id}`)}
                 className="bg-white rounded-xl shadow-md cursor-pointer hover:shadow-xl transition group overflow-hidden"
               >
                 <div className="h-[260px] overflow-hidden bg-gray-100">
-                  {/* Cloudinary URL നേരിട്ട് ഉപയോഗിക്കുന്നു */}
                   <img
                     src={product.images && product.images.length > 0 ? product.images[0] : "https://via.placeholder.com/300"}
                     alt={product.name}
