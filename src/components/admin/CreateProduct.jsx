@@ -116,53 +116,65 @@ const CreateProduct = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    const token = localStorage.getItem('token'); 
-    if (!token) {
-        toast.error("Authorization failed! Please login again.");
-        setLoading(false);
-        return;
-    }
+  const token = localStorage.getItem('token');
+  if (!token) {
+    toast.error("Authorization failed! Please login again.");
+    setLoading(false);
+    return;
+  }
 
-    const loadToast = toast.loading(isEditing ? "Updating Product..." : "Publishing Product...");
+  // ലോഡിംഗ് കാണിക്കാൻ ഒരു ഐഡി സെറ്റ് ചെയ്യുന്നു
+  const loadToast = toast.loading(isEditing ? "Updating Product..." : "Publishing Product...");
 
-    try {
-      const API_URL = isEditing 
-        ? `http://localhost:3000/api/products/${id}` 
-        : "http://localhost:3000/api/products";
-      
-      const response = await axios({
-        method: isEditing ? 'put' : 'post',
-        url: API_URL,
-        data: formData,
-        headers: {
-          Authorization: `Bearer ${token}`, 
-          "Content-Type": "application/json"
-        },
-        withCredentials: true 
-      });
-
-      if (response.status === 200 || response.status === 201) {
-        toast.success(isEditing ? "Product updated successfully!" : "Product published successfully!", { id: loadToast });
-        
-        if (!isEditing) {
-            setFormData(initialFormState);
-            setPreviews([]);
-        } else {
-           
-            setTimeout(() => navigate('/admin/inventory'), 2000);
-        }
+  try {
+    const data = new FormData();
+    Object.keys(formData).forEach(key => {
+      if (key === 'dimensions') {
+        data.append(key, JSON.stringify(formData[key]));
+      } else if (key === 'images') {
+        formData.images.forEach(img => data.append('images', img));
+      } else {
+        data.append(key, formData[key]);
       }
-    } catch (error) {
-      console.error("Submission Error:", error);
-      const msg = error.response?.data?.message || "Operation failed";
-      toast.error("Error: " + msg, { id: loadToast });
-    } finally {
-      setLoading(false);
+    });
+
+    const API_URL = isEditing 
+      ? `http://localhost:3000/api/products/${id}` 
+      : "http://localhost:3000/api/products";
+    
+    const response = await axios({
+      method: isEditing ? 'put' : 'post',
+      url: API_URL,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data" 
+      },
+      withCredentials: true 
+    });
+
+    if (response.status === 200 || response.status === 201) {
+      // സക്സസ് മെസ്സേജ് കാണിക്കുന്നു (ലോഡിംഗ് ടോസ്റ്റിനെ റീപ്ലേസ് ചെയ്യുന്നു)
+      toast.success(isEditing ? "Product updated successfully! ✅" : "Product added successfully! 🚀", { id: loadToast });
+      
+      if (!isEditing) {
+          setFormData(initialFormState);
+          setPreviews([]);
+      } else {
+          setTimeout(() => navigate('/admin/inventory'), 2000);
+      }
     }
-  };
+  } catch (error) {
+    const msg = error.response?.data?.message || "Operation failed";
+    // എറർ മെസ്സേജ് കാണിക്കുന്നു
+    toast.error("Error: " + msg, { id: loadToast });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="p-4 md:p-0">
