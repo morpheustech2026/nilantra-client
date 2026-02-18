@@ -116,73 +116,66 @@ const CreateProduct = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Session expired! Please login again.");
-      setLoading(false);
-      return;
-    }
+  const token = localStorage.getItem('token');
+  if (!token) {
+    toast.error("Authorization failed! Please login again.");
+    setLoading(false);
+    return;
+  }
 
-    // 1. FormData 
-    const submitData = new FormData();
+  // ലോഡിംഗ് കാണിക്കാൻ ഒരു ഐഡി സെറ്റ് ചെയ്യുന്നു
+  const loadToast = toast.loading(isEditing ? "Updating Product..." : "Publishing Product...");
 
-    submitData.append("name", formData.name);
-    submitData.append("description", formData.description);
-    submitData.append("mainCategory", formData.mainCategory);
-    submitData.append("subCategory", formData.subCategory);
-    submitData.append("price", formData.price);
-    submitData.append("offerPrice", formData.offerPrice);
-    submitData.append("material", formData.material);
-    submitData.append("stock", formData.stock);
-    submitData.append("isFeatured", formData.isFeatured);
-    submitData.append("isBestSeller", formData.isBestSeller);
-    submitData.append("isActive", formData.isActive);
-
-    
-    submitData.append("colors", formData.colors.join(","));
-    submitData.append("seat", formData.seat.join(","));
-    submitData.append("dimensions", JSON.stringify(formData.dimensions));
-
-    formData.images.forEach((image) => {
-      if (image instanceof File) {
-        submitData.append("images", image);
+  try {
+    const data = new FormData();
+    Object.keys(formData).forEach(key => {
+      if (key === 'dimensions') {
+        data.append(key, JSON.stringify(formData[key]));
+      } else if (key === 'images') {
+        formData.images.forEach(img => data.append('images', img));
       } else {
-        submitData.append("existingImages", image);
+        data.append(key, formData[key]);
       }
     });
 
-    try {
-      const API_URL = isEditing
-        ? `http://localhost:3000/api/products/${id}`
-        : "http://localhost:3000/api/products";
+    const API_URL = isEditing 
+      ? `http://localhost:3000/api/products/${id}` 
+      : "http://localhost:3000/api/products";
+    
+    const response = await axios({
+      method: isEditing ? 'put' : 'post',
+      url: API_URL,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data" 
+      },
+      withCredentials: true 
+    });
 
-      const response = await axios({
-        method: isEditing ? "put" : "post",
-        url: API_URL,
-        data: submitData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200 || response.status === 201) {
-        toast.success(isEditing ? "Product Updated!" : "Product Added Successfully!");
-        if (!isEditing) {
+    if (response.status === 200 || response.status === 201) {
+      // സക്സസ് മെസ്സേജ് കാണിക്കുന്നു (ലോഡിംഗ് ടോസ്റ്റിനെ റീപ്ലേസ് ചെയ്യുന്നു)
+      toast.success(isEditing ? "Product updated successfully! ✅" : "Product added successfully! 🚀", { id: loadToast });
+      
+      if (!isEditing) {
           setFormData(initialFormState);
           setPreviews([]);
-        }
-        setTimeout(() => navigate("/admin/inventory"), 1500);
+      } else {
+          setTimeout(() => navigate('/admin/inventory'), 2000);
       }
-    } catch (error) {
-      console.error("Submission Error:", error);
-      toast.error(error.response?.data?.message || "Failed to process product");
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    const msg = error.response?.data?.message || "Operation failed";
+    // എറർ മെസ്സേജ് കാണിക്കുന്നു
+    toast.error("Error: " + msg, { id: loadToast });
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
     <div className="p-4 md:p-0">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-[#c7a17a]/20 pb-6 md:pb-8 mb-6 md:mb-10 gap-4">
