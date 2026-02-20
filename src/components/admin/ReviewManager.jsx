@@ -17,7 +17,7 @@ const ReviewManager = () => {
 
   const fetchReviews = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/api/reviews");
+      const { data } = await axios.get("https://nilantra-server.onrender.com/api/reviews");
       setReviews(data);
     } catch (error) {
       toast.error("Failed to load reviews from the server.");
@@ -34,7 +34,7 @@ const ReviewManager = () => {
           },
         };
 
-        await axios.delete(`http://localhost:3000/api/reviews/${id}`, config);
+        await axios.delete(`https://nilantra-server.onrender.com/api/reviews/${id}`, config);
         setReviews(reviews.filter((rev) => (rev._id || rev.id) !== id));
         toast.success("Review deleted successfully!", { id: loadingToast });
       } catch (error) {
@@ -54,7 +54,7 @@ const ReviewManager = () => {
         headers: { Authorization: `Bearer ${userInfo.token}` },
       };
       
-      await axios.put(`http://localhost:3000/api/reviews/${id}`, { reply: replyText }, config);
+      await axios.put(`https://nilantra-server.onrender.com/api/reviews/${id}`, { reply: replyText }, config);
 
       await fetchReviews(); 
       setReplyingId(null);

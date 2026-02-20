@@ -25,7 +25,7 @@ const UserList = () => {
       };
 
      
-      const { data } = await axios.get("http://localhost:3000/api/user", config);
+      const { data } = await axios.get("https://nilantra-server.onrender.com/api/user", config);
       
       console.log("Users fetched:", data); 
       setUsers(data);
@@ -42,7 +42,7 @@ const UserList = () => {
     if (window.confirm("Permanently remove this user?")) {
       try {
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        await axios.delete(`http://localhost:3000/api/user/${id}`, config);
+        await axios.delete(`https://nilantra-server.onrender.com/api/user/${id}`, config);
         setUsers(users.filter((u) => u._id !== id));
         toast.success("User successfully removed");
       } catch (error) {

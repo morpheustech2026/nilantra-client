@@ -19,8 +19,8 @@ const ProductList = () => {
 
   const navigate = useNavigate();
 
-  const API_URL = "http://localhost:3000/api/products";
-  const BASE_URL = "http://localhost:3000";
+  const API_URL = "https://nilantra-server.onrender.com/api/products";
+  const BASE_URL = "https://nilantra-server.onrender.com";
   const token = localStorage.getItem("token");
 
   // ✅ Fetch Products

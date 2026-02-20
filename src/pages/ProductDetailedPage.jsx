@@ -22,7 +22,7 @@ export default function ProductDetailed() {
     const fetchProductDetails = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`http://localhost:3000/api/products/${productId}`);
+        const response = await axios.get(`https://nilantra-server.onrender.com/api/products/${productId}`);
         setProduct(response.data);
         setActiveImg(response.data.images[0]);
       } catch (error) {

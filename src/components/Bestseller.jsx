@@ -1,24 +1,21 @@
-import React, { useRef, useState, useEffect } from 'react'; // useState, useEffect ചേർത്തു
+import React, { useRef, useState, useEffect } from 'react'; 
 import { Heart, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Axios ഇമ്പോർട്ട് ചെയ്യുക
+import axios from 'axios'; 
 
 const Bestseller = () => {
   const scrollContainerRef = useRef(null);
   const navigate = useNavigate();
   
-  // 1. സ്റ്റേറ്റ് സെറ്റ് ചെയ്യുന്നു
   const [bestsellerProducts, setBestsellerProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 2. ബാക്ക് എൻഡിൽ നിന്ന് ഡാറ്റ ഫെച്ച് ചെയ്യുന്നു
   useEffect(() => {
     const fetchBestsellers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:3000/api/products");
+        const response = await axios.get("https://nilantra-server.onrender.com/api/products");
         
-        // DB-ൽ 'isBestSeller' (S ക്യാപിറ്റൽ ആകാൻ സാധ്യതയുണ്ട്, മോഡലിൽ നോക്കുക) true ആയവ ഫിൽറ്റർ ചെയ്യുന്നു
         const filtered = response.data.filter(product => product.isBestSeller === true);
         setBestsellerProducts(filtered);
       } catch (error) {
@@ -39,7 +36,7 @@ const Bestseller = () => {
     }
   };
 
-  if (loading) return null; // അല്ലെങ്കിൽ ചെറിയൊരു ലോഡർ നൽകാം
+  if (loading) return null; 
 
   return (
     <section className="py-24 px-4 md:px-12 bg-[#ffffff] relative">
@@ -71,7 +68,7 @@ const Bestseller = () => {
         >
           {bestsellerProducts.map((product) => (
             <div 
-              key={product._id} // MongoDB ID ഉപയോഗിക്കുന്നു
+              key={product._id} 
               onClick={() => navigate(`/product-details/${product._id}`)}
               className="min-w-[300px] md:min-w-[340px] snap-center group cursor-pointer p-3 rounded-[2rem] transition-all duration-300 hover:shadow-xl hover:bg-[#f8f9fa]"
             >

@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
-// Images Imports (Existing)
+// Images Imports 
 import img1 from "../../src/assets/epoxy1.jpg";
 import img2 from "../../src/assets/epoxy1.jpg";
 import img3 from "../../src/assets/epoxy3.jpg";

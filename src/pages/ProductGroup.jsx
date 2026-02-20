@@ -15,7 +15,7 @@ function ProductGroup() {
       try {
         setLoading(true);
         // API Call
-        const response = await axios.get("http://localhost:3000/api/products");
+        const response = await axios.get("https://nilantra-server.onrender.com/api/products");
         const allProducts = response.data;
 
         // Filtering Logic
@@ -23,7 +23,6 @@ function ProductGroup() {
           let urlCat = category ? category.replace(/-/g, " ").toLowerCase().trim() : "";
           const urlTyp = type ? type.replace(/-/g, " ").toLowerCase().trim() : "";
 
-          // Dining Room എന്നത് DB-യിൽ Dining എന്നാണെങ്കിൽ അത് മാച്ച് ചെയ്യാൻ
           if (urlCat === "dining room") urlCat = "dining";
 
           const dbCat = p.mainCategory ? p.mainCategory.toLowerCase().trim() : "";

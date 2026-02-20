@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { motion } from "framer-motion"; // Added for staggered text animation
+import { motion } from "framer-motion"; 
 
 /* ================= COLLECTION DATA ================= */
 const originalCollections = [

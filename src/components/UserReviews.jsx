@@ -16,7 +16,7 @@ export default function UserReviews() {
 
   const fetchBackendReviews = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/api/reviews/general");
+      const { data } = await axios.get("https://nilantra-server.onrender.com/api/reviews/general");
       if (data && data.length > 0) {
         const formattedData = data.map((rev, index) => ({
           id: rev._id,
@@ -57,7 +57,7 @@ export default function UserReviews() {
     if (window.confirm("Are you sure you want to delete this review?")) {
       try {
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        await axios.delete(`http://localhost:3000/api/reviews/${id}`, config);
+        await axios.delete(`https://nilantra-server.onrender.com/api/reviews/${id}`, config);
         fetchBackendReviews();
       } catch (error) {
         alert("Delete failed");
@@ -68,7 +68,7 @@ export default function UserReviews() {
   const handleUpdate = async (id) => {
     try {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      await axios.put(`http://localhost:3000/api/reviews/${id}`, { comment: editComment }, config);
+      await axios.put(`https://nilantra-server.onrender.com/api/reviews/${id}`, { comment: editComment }, config);
       setEditingId(null);
       fetchBackendReviews();
       alert("Review updated!");

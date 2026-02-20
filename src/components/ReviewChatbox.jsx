@@ -36,7 +36,7 @@ const ReviewChatbox = () => {
                     Authorization: `Bearer ${userInfo.token}`,
                 },
             };
-            const response = await axios.post('http://localhost:3000/api/reviews/general', {
+            const response = await axios.post('https://nilantra-server.onrender.com/api/reviews/general', {
                 rating: Number(rating),
                 comment: comment,
             }, config);

@@ -51,7 +51,7 @@ const CreateProduct = () => {
       setIsEditing(true);
       const fetchProduct = async () => {
         try {
-          const res = await axios.get(`http://localhost:3000/api/products/${id}`);
+          const res = await axios.get(`https://nilantra-server.onrender.com/api/products/${id}`);
           if (res.data) {
             setFormData(res.data);
             setPreviews(res.data.images || []);
@@ -150,8 +150,8 @@ const CreateProduct = () => {
     });
 
     const API_URL = isEditing 
-      ? `http://localhost:3000/api/products/${id}` 
-      : "http://localhost:3000/api/products";
+      ? `https://nilantra-server.onrender.com/api/products/${id}` 
+      : "https://nilantra-server.onrender.com/api/products";
     
     const response = await axios({
       method: isEditing ? 'put' : 'post',
