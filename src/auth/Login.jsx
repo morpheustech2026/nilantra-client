@@ -26,7 +26,7 @@ function Login() {
     const loadToast = toast.loading("Logging in...");
 
     try {
-      const res = await axios.post("http://localhost:3000/api/user/login", { email, password });
+      const res = await axios.post("https://nilantra-server.onrender.com/api/user/login", { email, password });
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);

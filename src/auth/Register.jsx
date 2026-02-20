@@ -49,7 +49,7 @@ function Register() {
     try {
      
       const { name, email, password, role } = formData;
-      const res = await axios.post("http://localhost:3000/api/user/register", { name, email, password, role });
+      const res = await axios.post("https://nilantra-server.onrender.com/api/user/register", { name, email, password, role });
       
       if (res.status === 201) {
         toast.success("Registration Successful!", { id: loadToast }); 
