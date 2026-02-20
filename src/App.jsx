@@ -22,6 +22,7 @@ import AboutSection from "./components/AboutSection";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreateProduct from './components/admin/CreateProduct';
 import EpoxyGallery from "./components/EpoxyGallery";
+import ConstructionSection from "./components/ConstructionSection";
 
 
 function App() {
@@ -74,6 +75,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/about" element={<AboutSection />} />
+          <Route
+            path="/construction"
+            element={<ConstructionSection />}
+          />
 
           {/* VENDORS */}
           <Route path="/vendors" element={<Vendors />} />

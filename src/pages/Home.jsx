@@ -15,6 +15,7 @@ import AboutSection from "../components/AboutSection";
 import Services from "../components/Services";
 import Loader from "../components/Loader"; // 
 import ReviewChatbox from "../components/ReviewChatbox";
+import ConstructionSection from "../components/ConstructionSection";
 
 function Home() {
   const location = useLocation();
@@ -65,6 +66,7 @@ function Home() {
       
       <ChatWidget />
       <ReviewChatbox/>
+      <ConstructionSection/>
       <EpoxyVideo />
       <Collections />
       <Vendors />
