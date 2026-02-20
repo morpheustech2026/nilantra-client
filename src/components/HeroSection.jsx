@@ -5,9 +5,9 @@ function HeroSection() {
   const navigate = useNavigate();
   const brand = "NILANTRA";
 
-  // About സെക്ഷനിലേക്ക് സ്ക്രോൾ ചെയ്യാനുള്ള ഫങ്ക്ഷൻ
+  
   const scrollToAbout = () => {
-    const aboutSection = document.getElementById("about-section"); // ID ശ്രദ്ധിക്കുക
+    const aboutSection = document.getElementById("about-section"); 
     if (aboutSection) {
       const navbarOffset = 110;
       const y = aboutSection.getBoundingClientRect().top + window.pageYOffset - navbarOffset;

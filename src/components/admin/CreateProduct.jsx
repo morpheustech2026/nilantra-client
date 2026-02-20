@@ -258,10 +258,28 @@ const CreateProduct = () => {
           </div>
 
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <input type="number" name="price" value={formData.price} placeholder="Base ₹" onChange={handleInputChange} className={inputStyle} required />
-              <input type="number" name="offerPrice" value={formData.offerPrice} placeholder="Sale ₹" onChange={handleInputChange} className={inputStyle} />
-            </div>
+          <div className="grid grid-cols-2 gap-4">
+  
+  <input 
+    type="number" 
+    name="price" 
+    value={formData.price === 0 ? "" : formData.price} 
+    placeholder="Base Rate ₹" 
+    onChange={handleInputChange} 
+    className={inputStyle} 
+    required 
+  />
+
+ 
+  <input 
+    type="number" 
+    name="offerPrice" 
+    value={formData.offerPrice === 0 ? "" : formData.offerPrice} 
+    placeholder="Offer Rate ₹" 
+    onChange={handleInputChange} 
+    className={inputStyle} 
+  />
+</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <select name="mainCategory" value={formData.mainCategory} onChange={(e) => setFormData({ ...formData, mainCategory: e.target.value, subCategory: "", seat: [] })} className={inputStyle} required>
                 <option value="">Main Category</option>
