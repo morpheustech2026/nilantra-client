@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../assets/nilantra-logo.png"; // പാത്ത് കൃത്യമാണെന്ന് ഉറപ്പാക്കുക
+import logo from "../assets/nilantra-logo.png"; 
 
 function Loader() {
   return (
